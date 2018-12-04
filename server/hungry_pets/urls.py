@@ -7,6 +7,9 @@ from . import views
 router = DefaultRouter()
 
 router.register('login', views.LoginViewSet, base_name='login')
+router.register('auth', views.AuthenticatedUserViewSet, base_name='auth') 
+router.register('is-authenticated', views.UserIsAuthenticatedViewSet, base_name='is-authenticated') 
+router.register('pet', views.PetViewSet, base_name='pet')
 
 urlpatterns = [
     url(r'', include(router.urls)),
