@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from django.conf.urls import include
+from django.urls import path
+from . import admin_urls
 
 from rest_framework.routers import DefaultRouter, SimpleRouter
 from . import views
@@ -13,4 +15,5 @@ router.register('pet', views.PetViewSet, base_name='pet')
 
 urlpatterns = [
     url(r'', include(router.urls)),
+    path('admin/', include(admin_urls))
 ]

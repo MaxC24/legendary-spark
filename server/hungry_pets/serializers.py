@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from hungry_pets.models.pet import Pet
+from hungry_pets.models.user import User
 
 class PetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,3 +14,9 @@ class PetSerializer(serializers.ModelSerializer):
                 field.set(value)
 
         return instance
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'email')
