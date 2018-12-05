@@ -90,3 +90,11 @@ class AuthPetViewSet(viewsets.ViewSet):
                 "success": False
             })
     
+class PreferenceViewSet(viewsets.ViewSet):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    def list(self, request):
+        pets = Pet.objects.filter(users__id=request.user.id).values('id')
+        return Response({
+            "preferences": map(lambda x: x['id'], pets)
+        })
