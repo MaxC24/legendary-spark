@@ -38,7 +38,6 @@ class AuthenticatedUserViewSet(viewsets.ViewSet):
             return Response({
                 "email": request.user.email,
                 "isAdmin": request.user.is_superuser,
-                "isStaff": request.user.is_staff,
                 "firstName": profile.first_name,
                 "lastName": profile.last_name,
                 "address": profile.address,
@@ -47,7 +46,6 @@ class AuthenticatedUserViewSet(viewsets.ViewSet):
             return Response({
                 "email": request.user.email,
                 "isAdmin": request.user.is_superuser,
-                "isStaff": request.user.is_staff,
             })
 
 class UserIsAuthenticatedViewSet(viewsets.ViewSet):
@@ -61,36 +59,33 @@ class UserIsAuthenticatedViewSet(viewsets.ViewSet):
 
 class PetViewSet(viewsets.ViewSet):
     def list(self, request):
-        queryset = Pet.objects.all()
+        queryset = Pet.objects.all().prefetch_related('breed', 'species')
         serializer = PetSerializer(queryset, many=True)
         return Response(serializer.data)
 
-class AuthPetViewSet(viewsets.ViewSet):
+class LikePetViewSet(PetViewSet):
+    """
+        Extends the petViewSet and allows user to like/unlike pet.
+        request.data = { "petId": <Number> }
+    """
     permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenAuthentication,) 
-    def list(self, request):
-        queryset = Pet.objects.all()
-        serializer = PetSerializer(queryset, many=True)
-        return Response(serializer.data)
     def put(self, request, pk=None):
-        if request.user.id == request.data['user_id']:
-            pet = Pet.objects.get(id=request.data['pet_id'])
-            user = User.objects.get(id=request.data['user_id'])
-            if Pet.objects.filter(users__id=user.id).exists():
-                pet.users.remove(user)
-            else:
-                pet.users.add(user)
-            pet.save()
-            return Response({
-                "success": True,
-                "liked": Pet.objects.filter(users__id=user.id).exists()
-            })  
-        else: 
-            return Response({
-                "success": False
-            })
-    
+        pet = Pet.objects.get(id=request.data['pet_id'])
+        user = User.objects.get(id=request.user.id)
+        if Pet.objects.filter(users__id=user.id).exists():
+            pet.users.remove(user)
+        else:
+            pet.users.add(user)
+        pet.save()
+        return Response({
+            "liked": Pet.objects.filter(users__id=user.id).exists()
+        })  
+
 class PreferenceViewSet(viewsets.ViewSet):
+    """
+        Preferences route returning a list with current user's preferences ids.
+    """
     permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenAuthentication,)
     def list(self, request):
