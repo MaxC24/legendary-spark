@@ -6,7 +6,7 @@ from hungry_pets.admin import admin_views
 
 router = DefaultRouter()
 
-router.register('pet', admin_views.AdminPetViewSet)
+router.register('pet', admin_views.AdminPetViewSet, base_name='admin_pet')
 router.register('user', admin_views.AdminUserViewSet)
 
 urlpatterns = [

@@ -13,6 +13,7 @@ from hungry_pets.models.user import User
 from hungry_pets.models.profile import Profile
 
 from hungry_pets.serializers import PetSerializer
+from hungry_pets.serializers import UserSerializer
 
 class LoginViewSet(viewsets.ViewSet):
     serializer_class = AuthTokenSerializer
@@ -20,6 +21,12 @@ class LoginViewSet(viewsets.ViewSet):
     def create(self, request):
         return ObtainAuthToken().post(request)
 
+class SignUpViewSet(viewsets.ViewSet):
+    def create(self, request):
+        user = User.objects.create_user(**request.data)
+        user.save()
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
 
 class AuthenticatedUserViewSet(viewsets.ViewSet):
     #get the a serialized object which contains both user and user profile data
@@ -57,5 +64,29 @@ class PetViewSet(viewsets.ViewSet):
         queryset = Pet.objects.all()
         serializer = PetSerializer(queryset, many=True)
         return Response(serializer.data)
-    
 
+class AuthPetViewSet(viewsets.ViewSet):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,) 
+    def list(self, request):
+        queryset = Pet.objects.all()
+        serializer = PetSerializer(queryset, many=True)
+        return Response(serializer.data)
+    def put(self, request, pk=None):
+        if request.user.id == request.data['user_id']:
+            pet = Pet.objects.get(id=request.data['pet_id'])
+            user = User.objects.get(id=request.data['user_id'])
+            if Pet.objects.filter(users__id=user.id).exists():
+                pet.users.remove(user)
+            else:
+                pet.users.add(user)
+            pet.save()
+            return Response({
+                "success": True,
+                "liked": Pet.objects.filter(users__id=user.id).exists()
+            })  
+        else: 
+            return Response({
+                "success": False
+            })
+    
