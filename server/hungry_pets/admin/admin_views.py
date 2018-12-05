@@ -10,7 +10,7 @@ class AdminPetViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
 
-class AdminUserViewSet(viewsets.ModelViewSet):
+class AdminUserViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAdminUser,)
     queryset = User.objects.all()
     serializer_class = UserSerializer

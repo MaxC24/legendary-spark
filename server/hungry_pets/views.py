@@ -53,11 +53,9 @@ class UserIsAuthenticatedViewSet(viewsets.ViewSet):
         })
 
 class PetViewSet(viewsets.ViewSet):
-    permission_classes = (IsAdminUser, )
     def list(self, request):
         queryset = Pet.objects.all()
         serializer = PetSerializer(queryset, many=True)
         return Response(serializer.data)
-    def create(self, request):
-        return Response(request.data)
+    
 
