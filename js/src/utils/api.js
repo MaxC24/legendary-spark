@@ -83,8 +83,9 @@ export async function adminGetUsers() {
 }
 
 export async function adminDeletePet(id) {
-    let response = await fetch(`${api.adminPet}/${id}`, {
-        method: "DELETE"
+    let response = await fetch(`${api.adminPet}${id}`, {
+        method: "DELETE",
+        'Accept': 'application/json'
     })
-    return response.json();
+    if(response.status !== 204) throw new Error("Could not delete the record.")
 }

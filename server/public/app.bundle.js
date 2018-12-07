@@ -259,6 +259,7 @@ var Admin = function (_Component) {
         key: 'removePet',
         value: function () {
             var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id) {
+                var response;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -267,13 +268,15 @@ var Admin = function (_Component) {
                                 return (0, _api.adminDeletePet)(id);
 
                             case 2:
+                                response = _context2.sent;
+
                                 this.setState({
                                     pets: this.state.pets.filter(function (pet) {
                                         return pet.id !== id;
                                     })
                                 });
 
-                            case 3:
+                            case 4:
                             case 'end':
                                 return _context2.stop();
                         }
@@ -307,10 +310,20 @@ var Admin = function (_Component) {
                 _react2.default.createElement(_PetCreator2.default, { addPet: function addPet(pet) {
                         return _this2.addPet(pet);
                     } }),
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Pet List'
+                ),
                 _react2.default.createElement(_PetList2.default, { pets: this.state.pets,
                     removePet: function removePet(id) {
                         return _this2.removePet(id);
                     } }),
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    'User List'
+                ),
                 _react2.default.createElement(_UserList2.default, { pets: this.state.pets, users: this.state.users })
             );
         }
@@ -460,14 +473,13 @@ var Home = function (_React$Component) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                console.log(id);
-                                _context2.next = 3;
+                                _context2.next = 2;
                                 return (0, _api.toggleLikePet)(id);
 
-                            case 3:
+                            case 2:
                                 this.setPreferences();
 
-                            case 4:
+                            case 3:
                             case 'end':
                                 return _context2.stop();
                         }
@@ -1673,15 +1685,22 @@ var adminDeletePet = exports.adminDeletePet = function () {
                 switch (_context10.prev = _context10.next) {
                     case 0:
                         _context10.next = 2;
-                        return (0, _fetch2.default)(_apiEndpoints2.default.adminPet + '/' + id, {
-                            method: "DELETE"
+                        return (0, _fetch2.default)('' + _apiEndpoints2.default.adminPet + id, {
+                            method: "DELETE",
+                            'Accept': 'application/json'
                         });
 
                     case 2:
                         response = _context10.sent;
-                        return _context10.abrupt('return', response.json());
 
-                    case 4:
+                        if (!(response.status !== 204)) {
+                            _context10.next = 5;
+                            break;
+                        }
+
+                        throw new Error("Could not delete the record.");
+
+                    case 5:
                     case 'end':
                         return _context10.stop();
                 }

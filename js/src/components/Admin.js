@@ -28,7 +28,7 @@ class Admin extends Component {
     }
 
     async removePet(id) {
-        await adminDeletePet(id)
+        let response = await adminDeletePet(id)
         this.setState({
             pets: this.state.pets.filter(pet => pet.id !== id)
         })
@@ -39,8 +39,10 @@ class Admin extends Component {
             <div>
                 <Link to=''><button>Back</button></Link>
                 <PetCreator addPet={(pet) => this.addPet(pet)} />
+                <h2>Pet List</h2>
                 <PetList pets={this.state.pets} 
                          removePet={(id) => this.removePet(id)}/>
+                <h2>User List</h2>                
                 <UserList pets={this.state.pets} users={this.state.users} />
             </div>
         )
