@@ -1,7 +1,7 @@
 .DS_STORE
 #javascript related
 node_modules
-server/public
+server/public/*
 yarn-error.log
 
 # Virtualenv related
