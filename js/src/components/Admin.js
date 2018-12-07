@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PetCreator from './admin-components/PetCreator';
 import PetList from './admin-components/PetList';
 import UserList from './admin-components/UserList';
-import { adminGetPets, adminGetUsers } from '../utils/api';
+import { adminGetPets, adminGetUsers, adminDeletePet } from '../utils/api';
 import { Link } from 'react-router-dom';
 
 class Admin extends Component {
@@ -27,12 +27,20 @@ class Admin extends Component {
         })
     }
 
+    async removePet(id) {
+        await adminDeletePet(id)
+        this.setState({
+            pets: this.state.pets.filter(pet => pet.id !== id)
+        })
+    }
+
     render() {
         return(
             <div>
                 <Link to=''><button>Back</button></Link>
                 <PetCreator addPet={(pet) => this.addPet(pet)} />
-                <PetList pets={this.state.pets} />
+                <PetList pets={this.state.pets} 
+                         removePet={(id) => this.removePet(id)}/>
                 <UserList pets={this.state.pets} users={this.state.users} />
             </div>
         )

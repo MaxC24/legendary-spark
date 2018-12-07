@@ -20,6 +20,7 @@ class Home extends React.Component {
     }
 
     async togglePreference(id){
+        console.log(id);
         await toggleLikePet(id);
         this.setPreferences();
     }

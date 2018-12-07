@@ -256,6 +256,38 @@ var Admin = function (_Component) {
             });
         }
     }, {
+        key: 'removePet',
+        value: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id) {
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return (0, _api.adminDeletePet)(id);
+
+                            case 2:
+                                this.setState({
+                                    pets: this.state.pets.filter(function (pet) {
+                                        return pet.id !== id;
+                                    })
+                                });
+
+                            case 3:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function removePet(_x) {
+                return _ref2.apply(this, arguments);
+            }
+
+            return removePet;
+        }()
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
@@ -275,7 +307,10 @@ var Admin = function (_Component) {
                 _react2.default.createElement(_PetCreator2.default, { addPet: function addPet(pet) {
                         return _this2.addPet(pet);
                     } }),
-                _react2.default.createElement(_PetList2.default, { pets: this.state.pets }),
+                _react2.default.createElement(_PetList2.default, { pets: this.state.pets,
+                    removePet: function removePet(id) {
+                        return _this2.removePet(id);
+                    } }),
                 _react2.default.createElement(_UserList2.default, { pets: this.state.pets, users: this.state.users })
             );
         }
@@ -425,13 +460,14 @@ var Home = function (_React$Component) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                _context2.next = 2;
+                                console.log(id);
+                                _context2.next = 3;
                                 return (0, _api.toggleLikePet)(id);
 
-                            case 2:
+                            case 3:
                                 this.setPreferences();
 
-                            case 3:
+                            case 4:
                             case 'end':
                                 return _context2.stop();
                         }
@@ -708,7 +744,8 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (_ref) {
-    var pets = _ref.pets;
+    var pets = _ref.pets,
+        removePet = _ref.removePet;
 
     return _react2.default.createElement(
         'ul',
@@ -739,7 +776,9 @@ exports.default = function (_ref) {
                 ),
                 _react2.default.createElement(
                     'button',
-                    null,
+                    { onClick: function onClick() {
+                            return removePet(pet.id);
+                        } },
                     'Delete'
                 )
             );
@@ -1325,7 +1364,7 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.adminGetUsers = exports.adminGetPets = exports.adminCreatePet = exports.getPreferences = exports.toggleLikePet = exports.getPets = exports.isAuthenticated = exports.signup = exports.login = undefined;
+exports.adminDeletePet = exports.adminGetUsers = exports.adminGetPets = exports.adminCreatePet = exports.getPreferences = exports.toggleLikePet = exports.getPets = exports.isAuthenticated = exports.signup = exports.login = undefined;
 
 var login = exports.login = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
@@ -1623,6 +1662,35 @@ var adminGetUsers = exports.adminGetUsers = function () {
 
     return function adminGetUsers() {
         return _ref9.apply(this, arguments);
+    };
+}();
+
+var adminDeletePet = exports.adminDeletePet = function () {
+    var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(id) {
+        var response;
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+            while (1) {
+                switch (_context10.prev = _context10.next) {
+                    case 0:
+                        _context10.next = 2;
+                        return (0, _fetch2.default)(_apiEndpoints2.default.adminPet + '/' + id, {
+                            method: "DELETE"
+                        });
+
+                    case 2:
+                        response = _context10.sent;
+                        return _context10.abrupt('return', response.json());
+
+                    case 4:
+                    case 'end':
+                        return _context10.stop();
+                }
+            }
+        }, _callee10, this);
+    }));
+
+    return function adminDeletePet(_x7) {
+        return _ref10.apply(this, arguments);
     };
 }();
 

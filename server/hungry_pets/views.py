@@ -73,7 +73,7 @@ class LikePetViewSet(PetViewSet):
     def put(self, request, pk=None):
         pet = Pet.objects.get(id=request.data['petId'])
         user = User.objects.get(id=request.user.id)
-        if Pet.objects.filter(users__id=user.id).exists():
+        if Pet.objects.filter(id=pet.id, users__id=user.id).exists():
             pet.users.remove(user)
         else:
             pet.users.add(user)

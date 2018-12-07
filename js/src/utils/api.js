@@ -81,3 +81,10 @@ export async function adminGetUsers() {
     let response = await fetch(api.adminUser);
     return response.json();
 }
+
+export async function adminDeletePet(id) {
+    let response = await fetch(`${api.adminPet}/${id}`, {
+        method: "DELETE"
+    })
+    return response.json();
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({pets}) => {
+export default ({pets, removePet}) => {
     return (
         <ul>
             {
@@ -11,7 +11,7 @@ export default ({pets}) => {
                             <div>{pet.breed}</div>
                             <div>{pet.species}</div>
                             <div>{`$${pet.price}`}</div>
-                            <button>Delete</button>
+                            <button onClick={() => removePet(pet.id)}>Delete</button>
                         </li>
                     )
                 })
