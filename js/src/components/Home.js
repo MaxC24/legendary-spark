@@ -36,8 +36,8 @@ class Home extends React.Component {
                 <h1>HUNGRY PETS</h1>
                 <LoginSignup setPreferences={() => this.setPreferences()}/>
                 <PetsFilter pets={this.state.pets}
-                            togglePreferences={(id) => this.togglePreference(id)}
-                            preferences={this.state.prefereces}/>
+                            togglePreference={(id) => this.togglePreference(id)}
+                            preferences={this.state.preferences}/>
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import PetCard from './PetCard';
+import PetCard from './PetCard';
 
 export default class PetsFilter extends Component {
 
@@ -13,8 +13,8 @@ export default class PetsFilter extends Component {
 
     filterPets(pets) {
         return pets.filter(pet => {
-            return (pet.breed === this.state.breed || pet.breed === '') && 
-                   (pet.species === this.state.species || pet.species === '')
+            return (pet.breed === this.state.breed || this.state.breed === '') && 
+                   (pet.species === this.state.species || this.state.species === '')
         })
     }
 

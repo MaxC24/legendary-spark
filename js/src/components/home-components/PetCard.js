@@ -8,8 +8,8 @@ let PetCard = ({userCtx: { user }, pet, preferences, togglePreference}) => {
     return(
         <div className="pet-card">
             <div>Name: {pet.name}</div>
-            <div>Breed: {pet.breed.name}</div>
-            <div>Species: {pet.species.name}</div>
+            <div>Breed: {pet.breed}</div>
+            <div>Species: {pet.species}</div>
             <div>Price: {`$${pet.price}`}</div>
             <img src={ pet.picture } />
             { user ? <div className={btnClass} 

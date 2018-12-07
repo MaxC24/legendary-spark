@@ -8,9 +8,10 @@ export default ({pets}) => {
                     return(
                         <li key={pet.name}>
                             <div>{pet.name}</div>
-                            <div>{pet.breed.name}</div>
-                            <div>{pet.species.name}</div>
+                            <div>{pet.breed}</div>
+                            <div>{pet.species}</div>
                             <div>{`$${pet.price}`}</div>
+                            <button>Delete</button>
                         </li>
                     )
                 })
