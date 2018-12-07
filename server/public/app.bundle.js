@@ -353,9 +353,9 @@ var _LoginSignup = __webpack_require__(/*! ./home-components/LoginSignup */ "./j
 
 var _LoginSignup2 = _interopRequireDefault(_LoginSignup);
 
-var _PetCard = __webpack_require__(/*! ./home-components/PetCard */ "./js/src/components/home-components/PetCard.js");
+var _PetsFilter = __webpack_require__(/*! ./home-components/PetsFilter */ "./js/src/components/home-components/PetsFilter.js");
 
-var _PetCard2 = _interopRequireDefault(_PetCard);
+var _PetsFilter2 = _interopRequireDefault(_PetsFilter);
 
 var _userContext = __webpack_require__(/*! ../context/user-context */ "./js/src/context/user-context.js");
 
@@ -500,14 +500,11 @@ var Home = function (_React$Component) {
                 _react2.default.createElement(_LoginSignup2.default, { setPreferences: function setPreferences() {
                         return _this2.setPreferences();
                     } }),
-                this.state.pets.map(function (pet) {
-                    return _react2.default.createElement(_PetCard2.default, { key: pet.name,
-                        pet: pet,
-                        togglePreference: function togglePreference() {
-                            return _this2.togglePreference(pet.id);
-                        },
-                        preferences: _this2.state.preferences });
-                })
+                _react2.default.createElement(_PetsFilter2.default, { pets: this.state.pets,
+                    togglePreferences: function togglePreferences(id) {
+                        return _this2.togglePreference(id);
+                    },
+                    preferences: this.state.prefereces })
             );
         }
     }]);
@@ -1047,10 +1044,10 @@ exports.default = _userContext2.default.consumer(LoginSignup);
 
 /***/ }),
 
-/***/ "./js/src/components/home-components/PetCard.js":
-/*!******************************************************!*\
-  !*** ./js/src/components/home-components/PetCard.js ***!
-  \******************************************************/
+/***/ "./js/src/components/home-components/PetsFilter.js":
+/*!*********************************************************!*\
+  !*** ./js/src/components/home-components/PetsFilter.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1061,62 +1058,71 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _userContext = __webpack_require__(/*! ../../context/user-context */ "./js/src/context/user-context.js");
-
-var _userContext2 = _interopRequireDefault(_userContext);
-
-var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PetCard = function PetCard(_ref) {
-    var user = _ref.userCtx.user,
-        pet = _ref.pet,
-        preferences = _ref.preferences,
-        togglePreference = _ref.togglePreference;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    var likedByUser = preferences.includes(pet.id);
-    var btnClass = (0, _classnames2.default)('like-btn', { liked: likedByUser });
-    return _react2.default.createElement(
-        'div',
-        { className: 'pet-card' },
-        _react2.default.createElement(
-            'div',
-            null,
-            'Name: ',
-            pet.name
-        ),
-        _react2.default.createElement(
-            'div',
-            null,
-            'Breed: ',
-            pet.breed.name
-        ),
-        _react2.default.createElement(
-            'div',
-            null,
-            'Species: ',
-            pet.species.name
-        ),
-        _react2.default.createElement(
-            'div',
-            null,
-            'Price: ',
-            '$' + pet.price
-        ),
-        _react2.default.createElement('img', { src: pet.picture }),
-        user ? _react2.default.createElement('div', { className: btnClass,
-            onClick: togglePreference }) : null
-    );
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-exports.default = _userContext2.default.consumer(PetCard);
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// import PetCard from './PetCard';
+
+var PetsFilter = function (_Component) {
+    _inherits(PetsFilter, _Component);
+
+    function PetsFilter(props) {
+        _classCallCheck(this, PetsFilter);
+
+        var _this = _possibleConstructorReturn(this, (PetsFilter.__proto__ || Object.getPrototypeOf(PetsFilter)).call(this, props));
+
+        _this.state = {
+            breed: '',
+            species: ''
+        };
+        return _this;
+    }
+
+    _createClass(PetsFilter, [{
+        key: 'filterPets',
+        value: function filterPets(pets) {
+            var _this2 = this;
+
+            return pets.filter(function (pet) {
+                return (pet.breed === _this2.state.breed || pet.breed === '') && (pet.species === _this2.state.species || pet.species === '');
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var pets = this.filterPets(this.props.pets);
+            return _react2.default.createElement(
+                _react2.default.Fragment,
+                null,
+                pets.map(function (pet) {
+                    return _react2.default.createElement(PetCard, { key: pet.name,
+                        pet: pet,
+                        togglePreference: function togglePreference() {
+                            return _this3.props.togglePreference(pet.id);
+                        },
+                        preferences: _this3.props.preferences });
+                })
+            );
+        }
+    }]);
+
+    return PetsFilter;
+}(_react.Component);
+
+exports.default = PetsFilter;
 
 /***/ }),
 
@@ -1629,68 +1635,6 @@ define(String.prototype, "padRight", "".padEnd);
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
-/***/ "./node_modules/classnames/index.js":
-/*!******************************************!*\
-  !*** ./node_modules/classnames/index.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2017 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-
-	function classNames () {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg) && arg.length) {
-				var inner = classNames.apply(null, arg);
-				if (inner) {
-					classes.push(inner);
-				}
-			} else if (argType === 'object') {
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if ( true && module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {}
-}());
-
 
 /***/ }),
 

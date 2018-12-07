@@ -1,8 +1,8 @@
 import React from 'react'
 import { getPets, getPreferences, toggleLikePet } from '../utils/api'
 import LoginSignup from './home-components/LoginSignup'
-import PetCard from './home-components/PetCard';
-import userCtx from '../context/user-context'
+import PetsFilter from './home-components/PetsFilter';
+import userCtx from '../context/user-context'; 
 
 class Home extends React.Component {
 
@@ -35,14 +35,9 @@ class Home extends React.Component {
             <div>
                 <h1>HUNGRY PETS</h1>
                 <LoginSignup setPreferences={() => this.setPreferences()}/>
-                {
-                    this.state.pets.map(pet => {
-                        return <PetCard key={pet.name} 
-                                        pet={pet} 
-                                        togglePreference={() => this.togglePreference(pet.id)}
-                                        preferences={this.state.preferences} />
-                    })
-                }
+                <PetsFilter pets={this.state.pets}
+                            togglePreferences={(id) => this.togglePreference(id)}
+                            preferences={this.state.prefereces}/>
             </div>
         )
     }
