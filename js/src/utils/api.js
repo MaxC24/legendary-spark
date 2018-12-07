@@ -1,5 +1,5 @@
 import fetch from './fetch';
-import api from '../api-endpoints';
+import api from './api-endpoints';
 import Cookies from 'js-cookie'
 
 export async function login(email, password) {
@@ -61,6 +61,23 @@ export async function getPreferences() {
     return response.json();
 }
 
-// export async function adminCreateAPet() {
-    
-// }
+export async function adminCreatePet(data) {
+    let response = await fetch(api.adminPet, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: data
+    })
+    return response.json();
+}
+
+export async function adminGetPets() {
+    let response = await fetch(api.adminPet);
+    return response.json();
+}
+
+export async function adminGetUsers() {
+    let response = await fetch(api.adminUser);
+    return response.json();
+}

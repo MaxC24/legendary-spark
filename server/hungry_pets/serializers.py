@@ -16,7 +16,7 @@ class BreedSerializer(serializers.ModelSerializer):
 
 class PetSerializer(serializers.ModelSerializer):
     breed = BreedSerializer(read_only=True)
-    species = BreedSerializer(read_only=True)
+    species = SpeciesSerializer(read_only=True)
 
     class Meta:
         model = Pet

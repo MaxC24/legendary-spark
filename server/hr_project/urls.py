@@ -23,7 +23,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('hungry_pets.urls')),
-    path('', include('frontend.urls')),
+    url('', include('frontend.urls')),
 ]
 
 # Adding the image folder as static one:

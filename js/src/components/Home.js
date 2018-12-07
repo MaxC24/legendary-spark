@@ -1,7 +1,7 @@
 import React from 'react'
 import { getPets, getPreferences, toggleLikePet } from '../utils/api'
-import LoginSignup from './LoginSignup'
-import PetCard from './PetCard';
+import LoginSignup from './home-components/LoginSignup'
+import PetCard from './home-components/PetCard';
 import userCtx from '../context/user-context'
 
 class Home extends React.Component {

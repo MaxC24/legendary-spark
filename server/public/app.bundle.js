@@ -132,7 +132,7 @@ var App = function App() {
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/admin', component: _Admin2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/admin-page', component: _Admin2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { component: _FourOFour2.default })
         )
     );
@@ -145,33 +145,6 @@ App = _userContext2.default.provider(App);
     null,
     _react2.default.createElement(App, null)
 ), document.getElementById('app'));
-
-/***/ }),
-
-/***/ "./js/src/api-endpoints.js":
-/*!*********************************!*\
-  !*** ./js/src/api-endpoints.js ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    login: '/api/login/',
-    signup: '/api/signup',
-    auth: '/api/auth',
-    isAuthenticated: '/api/is-authenticated',
-    pet: '/api/pet',
-    likePet: '/api/like-pet/',
-    preference: '/api/preference',
-    adminPet: '/api/admin/pet',
-    admiUser: '/api/admin/user'
-};
 
 /***/ }),
 
@@ -195,11 +168,27 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _PetCreator = __webpack_require__(/*! ./PetCreator */ "./js/src/components/PetCreator.js");
+var _PetCreator = __webpack_require__(/*! ./admin-components/PetCreator */ "./js/src/components/admin-components/PetCreator.js");
 
 var _PetCreator2 = _interopRequireDefault(_PetCreator);
 
+var _PetList = __webpack_require__(/*! ./admin-components/PetList */ "./js/src/components/admin-components/PetList.js");
+
+var _PetList2 = _interopRequireDefault(_PetList);
+
+var _UserList = __webpack_require__(/*! ./admin-components/UserList */ "./js/src/components/admin-components/UserList.js");
+
+var _UserList2 = _interopRequireDefault(_UserList);
+
+var _api = __webpack_require__(/*! ../utils/api */ "./js/src/utils/api.js");
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -213,16 +202,81 @@ var Admin = function (_Component) {
     function Admin(props) {
         _classCallCheck(this, Admin);
 
-        return _possibleConstructorReturn(this, (Admin.__proto__ || Object.getPrototypeOf(Admin)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Admin.__proto__ || Object.getPrototypeOf(Admin)).call(this, props));
+
+        _this.state = {
+            pets: [],
+            users: []
+        };
+        return _this;
     }
 
     _createClass(Admin, [{
+        key: 'componentDidMount',
+        value: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                var pets, users;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return (0, _api.adminGetPets)();
+
+                            case 2:
+                                pets = _context.sent;
+                                _context.next = 5;
+                                return (0, _api.adminGetUsers)();
+
+                            case 5:
+                                users = _context.sent;
+
+                                console.log(pets, users);
+                                this.setState({ pets: pets, users: users });
+
+                            case 8:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function componentDidMount() {
+                return _ref.apply(this, arguments);
+            }
+
+            return componentDidMount;
+        }()
+    }, {
+        key: 'addPet',
+        value: function addPet(pet) {
+            this.setState({
+                pets: [].concat(_toConsumableArray(this.state.pets), [pet])
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_PetCreator2.default, null)
+                _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '' },
+                    _react2.default.createElement(
+                        'button',
+                        null,
+                        'Back'
+                    )
+                ),
+                _react2.default.createElement(_PetCreator2.default, { addPet: function addPet(pet) {
+                        return _this2.addPet(pet);
+                    } }),
+                _react2.default.createElement(_PetList2.default, { pets: this.state.pets }),
+                _react2.default.createElement(_UserList2.default, { pets: this.state.pets, users: this.state.users })
             );
         }
     }]);
@@ -295,11 +349,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _api = __webpack_require__(/*! ../utils/api */ "./js/src/utils/api.js");
 
-var _LoginSignup = __webpack_require__(/*! ./LoginSignup */ "./js/src/components/LoginSignup.js");
+var _LoginSignup = __webpack_require__(/*! ./home-components/LoginSignup */ "./js/src/components/home-components/LoginSignup.js");
 
 var _LoginSignup2 = _interopRequireDefault(_LoginSignup);
 
-var _PetCard = __webpack_require__(/*! ./PetCard */ "./js/src/components/PetCard.js");
+var _PetCard = __webpack_require__(/*! ./home-components/PetCard */ "./js/src/components/home-components/PetCard.js");
 
 var _PetCard2 = _interopRequireDefault(_PetCard);
 
@@ -465,10 +519,10 @@ exports.default = _userContext2.default.consumer(Home);
 
 /***/ }),
 
-/***/ "./js/src/components/LoginSignup.js":
-/*!******************************************!*\
-  !*** ./js/src/components/LoginSignup.js ***!
-  \******************************************/
+/***/ "./js/src/components/admin-components/PetCreator.js":
+/*!**********************************************************!*\
+  !*** ./js/src/components/admin-components/PetCreator.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -485,7 +539,292 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _userContext = __webpack_require__(/*! ../context/user-context */ "./js/src/context/user-context.js");
+var _api = __webpack_require__(/*! ../../utils/api */ "./js/src/utils/api.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PetCreator = function (_React$Component) {
+    _inherits(PetCreator, _React$Component);
+
+    function PetCreator(props) {
+        _classCallCheck(this, PetCreator);
+
+        var _this = _possibleConstructorReturn(this, (PetCreator.__proto__ || Object.getPrototypeOf(PetCreator)).call(this, props));
+
+        _this.state = {
+            name: '',
+            breed: '',
+            species: '',
+            price: '',
+            age: '',
+            picture: null
+        };
+        return _this;
+    }
+
+    _createClass(PetCreator, [{
+        key: 'onInputChange',
+        value: function onInputChange(prop, e) {
+            this.setState(_defineProperty({}, prop, e.target.value));
+        }
+    }, {
+        key: 'onFileInputChange',
+        value: function onFileInputChange(e) {
+            this.setState({
+                picture: e.target.files[0]
+            });
+        }
+    }, {
+        key: 'createPet',
+        value: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+                var formData, key, newPet;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                e.preventDefault();
+                                e.stopPropagation();
+                                formData = new FormData();
+
+
+                                for (key in this.state) {
+                                    formData.append(key, this.state[key]);
+                                }
+
+                                _context.next = 6;
+                                return (0, _api.adminCreatePet)(formData);
+
+                            case 6:
+                                newPet = _context.sent;
+
+                                this.props.addPet(newPet);
+
+                            case 8:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function createPet(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return createPet;
+        }()
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    'FORM EXAMPLE:'
+                ),
+                _react2.default.createElement(
+                    'form',
+                    { onSubmit: function onSubmit() {
+                            return _this2.state.createPet();
+                        } },
+                    _react2.default.createElement('input', { type: 'text',
+                        placeholder: 'Name',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('name', e);
+                        } }),
+                    _react2.default.createElement('input', { type: 'text',
+                        placeholder: 'Age',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('age', e);
+                        } }),
+                    _react2.default.createElement('input', { type: 'text',
+                        placeholder: 'Breed',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('breed', e);
+                        } }),
+                    _react2.default.createElement('input', { type: 'text',
+                        placeholder: 'Species',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('species', e);
+                        } }),
+                    _react2.default.createElement('input', { type: 'text',
+                        placeholder: 'Price',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('price', e);
+                        } }),
+                    _react2.default.createElement('input', { type: 'file',
+                        onChange: function onChange(e) {
+                            return _this2.onFileInputChange(e);
+                        } }),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: function onClick(e) {
+                                return _this2.createPet(e);
+                            } },
+                        'Create Pet'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return PetCreator;
+}(_react2.default.Component);
+
+exports.default = PetCreator;
+
+/***/ }),
+
+/***/ "./js/src/components/admin-components/PetList.js":
+/*!*******************************************************!*\
+  !*** ./js/src/components/admin-components/PetList.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (_ref) {
+    var pets = _ref.pets;
+
+    return _react2.default.createElement(
+        'ul',
+        null,
+        pets.map(function (pet) {
+            return _react2.default.createElement(
+                'li',
+                { key: pet.name },
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    pet.name
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    pet.breed.name
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    pet.species.name
+                ),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    '$' + pet.price
+                )
+            );
+        })
+    );
+};
+
+/***/ }),
+
+/***/ "./js/src/components/admin-components/UserList.js":
+/*!********************************************************!*\
+  !*** ./js/src/components/admin-components/UserList.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (_ref) {
+    var users = _ref.users,
+        pets = _ref.pets;
+
+    return _react2.default.createElement(
+        'ul',
+        null,
+        users.map(function (user) {
+            var usersPets = pets.filter(function (pet) {
+                return pet.users.includes(user.id);
+            });
+            return _react2.default.createElement(
+                'li',
+                { key: user.email },
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    user.email
+                ),
+                usersPets.map(function (pet, i) {
+                    return _react2.default.createElement(
+                        'div',
+                        { key: pet.name + '-' + i },
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            pet.name
+                        )
+                    );
+                })
+            );
+        })
+    );
+};
+
+/***/ }),
+
+/***/ "./js/src/components/home-components/LoginSignup.js":
+/*!**********************************************************!*\
+  !*** ./js/src/components/home-components/LoginSignup.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _userContext = __webpack_require__(/*! ../../context/user-context */ "./js/src/context/user-context.js");
 
 var _userContext2 = _interopRequireDefault(_userContext);
 
@@ -641,8 +980,12 @@ var LoginSignup = function (_Component) {
                     ),
                     user.isAdmin ? _react2.default.createElement(
                         _reactRouterDom.Link,
-                        { to: 'admin' },
-                        'Admin'
+                        { to: 'admin-page' },
+                        _react2.default.createElement(
+                            'button',
+                            null,
+                            'Admin'
+                        )
                     ) : null
                 );
             }
@@ -704,10 +1047,10 @@ exports.default = _userContext2.default.consumer(LoginSignup);
 
 /***/ }),
 
-/***/ "./js/src/components/PetCard.js":
-/*!**************************************!*\
-  !*** ./js/src/components/PetCard.js ***!
-  \**************************************/
+/***/ "./js/src/components/home-components/PetCard.js":
+/*!******************************************************!*\
+  !*** ./js/src/components/home-components/PetCard.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -722,7 +1065,7 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _userContext = __webpack_require__(/*! ../context/user-context */ "./js/src/context/user-context.js");
+var _userContext = __webpack_require__(/*! ../../context/user-context */ "./js/src/context/user-context.js");
 
 var _userContext2 = _interopRequireDefault(_userContext);
 
@@ -774,74 +1117,6 @@ var PetCard = function PetCard(_ref) {
 };
 
 exports.default = _userContext2.default.consumer(PetCard);
-
-/***/ }),
-
-/***/ "./js/src/components/PetCreator.js":
-/*!*****************************************!*\
-  !*** ./js/src/components/PetCreator.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var PetCreator = function (_React$Component) {
-    _inherits(PetCreator, _React$Component);
-
-    function PetCreator(props) {
-        _classCallCheck(this, PetCreator);
-
-        return _possibleConstructorReturn(this, (PetCreator.__proto__ || Object.getPrototypeOf(PetCreator)).call(this, props));
-    }
-
-    _createClass(PetCreator, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                null,
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    "Create a Pet:"
-                ),
-                _react2.default.createElement(
-                    "form",
-                    { onSubmit: function onSubmit() {} },
-                    _react2.default.createElement("input", { type: "text", placeholder: "Name" }),
-                    _react2.default.createElement("input", { type: "text", placeholder: "Breed" }),
-                    _react2.default.createElement("input", { type: "text", placeholder: "Species" }),
-                    _react2.default.createElement("input", { type: "text", placeholder: "Price" }),
-                    _react2.default.createElement("input", { type: "file" })
-                )
-            );
-        }
-    }]);
-
-    return PetCreator;
-}(_react2.default.Component);
-
-exports.default = PetCreator;
 
 /***/ }),
 
@@ -924,6 +1199,33 @@ exports.default = (0, _reactCtxState2.default)('userCtx', state, actions);
 
 /***/ }),
 
+/***/ "./js/src/utils/api-endpoints.js":
+/*!***************************************!*\
+  !*** ./js/src/utils/api-endpoints.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    login: '/api/login/',
+    signup: '/api/signup/',
+    auth: '/api/auth/',
+    isAuthenticated: '/api/is-authenticated/',
+    pet: '/api/pet/',
+    likePet: '/api/like-pet/',
+    preference: '/api/preference/',
+    adminPet: '/api/admin/pet/',
+    adminUser: '/api/admin/user/'
+};
+
+/***/ }),
+
 /***/ "./js/src/utils/api.js":
 /*!*****************************!*\
   !*** ./js/src/utils/api.js ***!
@@ -937,7 +1239,7 @@ exports.default = (0, _reactCtxState2.default)('userCtx', state, actions);
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getPreferences = exports.toggleLikePet = exports.getPets = exports.isAuthenticated = exports.signup = exports.login = undefined;
+exports.adminGetUsers = exports.adminGetPets = exports.adminCreatePet = exports.getPreferences = exports.toggleLikePet = exports.getPets = exports.isAuthenticated = exports.signup = exports.login = undefined;
 
 var login = exports.login = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
@@ -1151,16 +1453,98 @@ var getPreferences = exports.getPreferences = function () {
     };
 }();
 
-// export async function adminCreateAPet() {
+var adminCreatePet = exports.adminCreatePet = function () {
+    var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(data) {
+        var response;
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+            while (1) {
+                switch (_context7.prev = _context7.next) {
+                    case 0:
+                        _context7.next = 2;
+                        return (0, _fetch2.default)(_apiEndpoints2.default.adminPet, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json'
+                            },
+                            body: data
+                        });
 
-// }
+                    case 2:
+                        response = _context7.sent;
+                        return _context7.abrupt('return', response.json());
 
+                    case 4:
+                    case 'end':
+                        return _context7.stop();
+                }
+            }
+        }, _callee7, this);
+    }));
+
+    return function adminCreatePet(_x6) {
+        return _ref7.apply(this, arguments);
+    };
+}();
+
+var adminGetPets = exports.adminGetPets = function () {
+    var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        var response;
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+            while (1) {
+                switch (_context8.prev = _context8.next) {
+                    case 0:
+                        _context8.next = 2;
+                        return (0, _fetch2.default)(_apiEndpoints2.default.adminPet);
+
+                    case 2:
+                        response = _context8.sent;
+                        return _context8.abrupt('return', response.json());
+
+                    case 4:
+                    case 'end':
+                        return _context8.stop();
+                }
+            }
+        }, _callee8, this);
+    }));
+
+    return function adminGetPets() {
+        return _ref8.apply(this, arguments);
+    };
+}();
+
+var adminGetUsers = exports.adminGetUsers = function () {
+    var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        var response;
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+            while (1) {
+                switch (_context9.prev = _context9.next) {
+                    case 0:
+                        _context9.next = 2;
+                        return (0, _fetch2.default)(_apiEndpoints2.default.adminUser);
+
+                    case 2:
+                        response = _context9.sent;
+                        return _context9.abrupt('return', response.json());
+
+                    case 4:
+                    case 'end':
+                        return _context9.stop();
+                }
+            }
+        }, _callee9, this);
+    }));
+
+    return function adminGetUsers() {
+        return _ref9.apply(this, arguments);
+    };
+}();
 
 var _fetch = __webpack_require__(/*! ./fetch */ "./js/src/utils/fetch.js");
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
-var _apiEndpoints = __webpack_require__(/*! ../api-endpoints */ "./js/src/api-endpoints.js");
+var _apiEndpoints = __webpack_require__(/*! ./api-endpoints */ "./js/src/utils/api-endpoints.js");
 
 var _apiEndpoints2 = _interopRequireDefault(_apiEndpoints);
 

@@ -12,7 +12,7 @@ let App = () => {
         <React.Fragment>
             <Switch>
                 <Route exact path='/' component={Home}/>
-                <Route exact path='/admin' component={Admin}/>
+                <Route exact path='/admin-page' component={Admin}/>
                 <Route component={FourOFour}/>
             </Switch>
         </React.Fragment>

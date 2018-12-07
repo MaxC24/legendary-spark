@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import userCtx from '../context/user-context';
+import userCtx from '../../context/user-context';
 import { Link } from 'react-router-dom';
 
 class LoginSignup extends Component {
@@ -43,7 +43,7 @@ class LoginSignup extends Component {
                 <div className="auth-forms">
                     <div>{user.email}</div>
                     <button onClick={ logout }>Logout</button>
-                    { user.isAdmin ? <Link to="admin">Admin</Link>: null }
+                    { user.isAdmin ? <Link to="admin-page"><button>Admin</button></Link>: null }
                 </div>
             );
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import userCtx from '../context/user-context';
+import userCtx from '../../context/user-context';
 import classNames from 'classnames';
 
 let PetCard = ({userCtx: { user }, pet, preferences, togglePreference}) => {
