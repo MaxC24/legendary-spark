@@ -8,7 +8,8 @@
     "dev": "NODE_ENV=dev webpack-dev-server",
     "build": "webpack",
     "build-netlify": "NODE_ENV=dev webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch"
   },
   "author": "",
   "license": "ISC",

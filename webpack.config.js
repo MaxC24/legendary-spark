@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const env = process.env.NODE_ENV;
 
 module.exports = {
-    entry: ["babel-polyfill","./src/app.js"],
+    entry: ["babel-polyfill","./js/app.js"],
     output: {
         path: path.resolve(__dirname, "server/public"),
         publicPath: '/public',

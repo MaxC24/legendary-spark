@@ -59,7 +59,7 @@ class UserIsAuthenticatedViewSet(viewsets.ViewSet):
 
 class PetViewSet(viewsets.ViewSet):
     def list(self, request):
-        queryset = Pet.objects.all().prefetch_related('breed', 'species')
+        queryset = Pet.objects.all()
         serializer = PetSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -71,7 +71,7 @@ class LikePetViewSet(PetViewSet):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenAuthentication,) 
     def put(self, request, pk=None):
-        pet = Pet.objects.get(id=request.data['pet_id'])
+        pet = Pet.objects.get(id=request.data['petId'])
         user = User.objects.get(id=request.user.id)
         if Pet.objects.filter(users__id=user.id).exists():
             pet.users.remove(user)
@@ -90,6 +90,4 @@ class PreferenceViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
     def list(self, request):
         pets = Pet.objects.filter(users__id=request.user.id).values('id')
-        return Response({
-            "preferences": map(lambda x: x['id'], pets)
-        })
+        return Response(map(lambda x: x['id'], pets))

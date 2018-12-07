@@ -9,7 +9,7 @@ export async function login(email, password) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({username: email, password})
+        body: JSON.stringify({username: email, password: password})
     })
     let tokenObj = await loginResponse.json();
     if(!tokenObj.token) throw new Error('wrong auth')
@@ -42,9 +42,13 @@ export async function getPets() {
     return response.json();
 }
 
-export async function likePet(id) {
+export async function toggleLikePet(id) {
     let response = await fetch(api.likePet, {
-        method: 'POST',
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             petId: id
         })
@@ -56,3 +60,7 @@ export async function getPreferences() {
     let response = await fetch(api.preference);
     return response.json();
 }
+
+// export async function adminCreateAPet() {
+    
+// }
