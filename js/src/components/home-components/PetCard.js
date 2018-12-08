@@ -5,6 +5,7 @@ import classNames from 'classnames';
 let PetCard = ({userCtx: { user }, pet, preferences, togglePreference}) => {
     let likedByUser = preferences.includes(pet.id);
     let iconClass = classNames({ 
+        "heart-icon": true,
         "fa fa-heart fa-2x": likedByUser,
         'fa fa-heart-o fa-2x': !likedByUser
     })
