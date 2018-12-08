@@ -5,7 +5,6 @@ export default ({pets, removePet}) => {
         <ul>
             {
                 pets.map(pet => {
-                    console.log(pet)
                     return(
                         <li key={pet.name}>
                             <div>{pet.name}</div>

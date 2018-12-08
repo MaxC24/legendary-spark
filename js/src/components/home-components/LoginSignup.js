@@ -42,6 +42,7 @@ class LoginSignup extends Component {
             return(
                 <div className="auth-forms">
                     <div>{user.email}</div>
+                    <Link to="profile"><button>Profile</button></Link>
                     <button onClick={ logout }>Logout</button>
                     { user.isAdmin ? <Link to="admin-page"><button>Admin</button></Link>: null }
                 </div>

@@ -41,6 +41,15 @@ const actions = {
             return { user: null, 
                      isAuthenticated: false}
         }
+    },
+    updateUser: (data) => state => {
+        let updatedUser = {
+            ...state.user,
+            ...data
+        }
+        Cookies.remove('user');
+        Cookies.set('user', updatedUser)
+        return updatedUser
     }
 }
 

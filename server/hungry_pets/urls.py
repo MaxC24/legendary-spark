@@ -15,6 +15,7 @@ router.register('is-authenticated', views.UserIsAuthenticatedViewSet, base_name=
 router.register('pet', views.PetViewSet, base_name='pet')
 router.register('like-pet', views.LikePetViewSet, base_name='like-pet')
 router.register('preference', views.PreferenceViewSet, base_name='preference')
+router.register('profile', views.UpdateProfileViewSet, base_name='profile')
 
 urlpatterns = [
     url(r'', include(router.urls)),

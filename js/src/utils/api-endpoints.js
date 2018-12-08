@@ -7,5 +7,6 @@ export default {
     likePet: '/api/like-pet/',
     preference: '/api/preference/',
     adminPet: '/api/admin/pet/',
-    adminUser: '/api/admin/user/' 
+    adminUser: '/api/admin/user/',
+    profile: '/api/profile/' 
 }

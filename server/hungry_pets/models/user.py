@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from hungry_pets.models.profile import Profile
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, is_active=True, is_staff=False, is_admin=False):
@@ -23,6 +24,8 @@ class UserManager(BaseUserManager):
             is_admin=True,
             is_staff=True
         )
+        super_user_profile = Profile(user=user)
+        super_user_profile.save()
         return user 
 
 class User(AbstractBaseUser, PermissionsMixin):

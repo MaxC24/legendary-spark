@@ -25,6 +25,8 @@ class SignUpViewSet(viewsets.ViewSet):
     def create(self, request):
         user = User.objects.create_user(**request.data)
         user.save()
+        profile = Profile(user=user)
+        profile.save()
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
@@ -41,6 +43,7 @@ class AuthenticatedUserViewSet(viewsets.ViewSet):
                 "firstName": profile.first_name,
                 "lastName": profile.last_name,
                 "address": profile.address,
+                "phone": profile.phone
             })
         else:
             return Response({
@@ -56,6 +59,25 @@ class UserIsAuthenticatedViewSet(viewsets.ViewSet):
         return Response({
             "authenticated": True
         })
+
+class UpdateProfileViewSet(viewsets.ViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request):
+        pass
+
+    def put(self, request):
+        userProfile = Profile.objects.get(user__id=request.user.id)
+        userProfile.first_name = request.data['firstName']
+        userProfile.last_name = request.data['lastName']
+        userProfile.address = request.data['address']
+        userProfile.phone = request.data['phone']
+        userProfile.save()
+        return Response({
+            "success": True
+        })
+
 
 class PetViewSet(viewsets.ViewSet):
     def list(self, request):

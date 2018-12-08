@@ -106,17 +106,21 @@ var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/i
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
-var _Home = __webpack_require__(/*! ./src/components/Home */ "./js/src/components/Home.js");
+var _HomePage = __webpack_require__(/*! ./src/components/HomePage */ "./js/src/components/HomePage.js");
 
-var _Home2 = _interopRequireDefault(_Home);
+var _HomePage2 = _interopRequireDefault(_HomePage);
 
-var _Admin = __webpack_require__(/*! ./src/components/Admin */ "./js/src/components/Admin.js");
+var _AdminPage = __webpack_require__(/*! ./src/components/AdminPage */ "./js/src/components/AdminPage.js");
 
-var _Admin2 = _interopRequireDefault(_Admin);
+var _AdminPage2 = _interopRequireDefault(_AdminPage);
 
-var _FourOFour = __webpack_require__(/*! ./src/components/FourOFour */ "./js/src/components/FourOFour.js");
+var _ProfilePage = __webpack_require__(/*! ./src/components/ProfilePage */ "./js/src/components/ProfilePage.js");
 
-var _FourOFour2 = _interopRequireDefault(_FourOFour);
+var _ProfilePage2 = _interopRequireDefault(_ProfilePage);
+
+var _FourOFourPage = __webpack_require__(/*! ./src/components/FourOFourPage */ "./js/src/components/FourOFourPage.js");
+
+var _FourOFourPage2 = _interopRequireDefault(_FourOFourPage);
 
 var _userContext = __webpack_require__(/*! ./src/context/user-context */ "./js/src/context/user-context.js");
 
@@ -131,9 +135,10 @@ var App = function App() {
         _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/admin-page', component: _Admin2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { component: _FourOFour2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _HomePage2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/admin-page', component: _AdminPage2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/profile', component: _ProfilePage2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { component: _FourOFourPage2.default })
         )
     );
 };
@@ -148,10 +153,10 @@ App = _userContext2.default.provider(App);
 
 /***/ }),
 
-/***/ "./js/src/components/Admin.js":
-/*!************************************!*\
-  !*** ./js/src/components/Admin.js ***!
-  \************************************/
+/***/ "./js/src/components/AdminPage.js":
+/*!****************************************!*\
+  !*** ./js/src/components/AdminPage.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -231,10 +236,9 @@ var Admin = function (_Component) {
                             case 5:
                                 users = _context.sent;
 
-                                console.log(pets, users);
                                 this.setState({ pets: pets, users: users });
 
-                            case 8:
+                            case 7:
                             case 'end':
                                 return _context.stop();
                         }
@@ -333,10 +337,10 @@ exports.default = Admin;
 
 /***/ }),
 
-/***/ "./js/src/components/FourOFour.js":
-/*!****************************************!*\
-  !*** ./js/src/components/FourOFour.js ***!
-  \****************************************/
+/***/ "./js/src/components/FourOFourPage.js":
+/*!********************************************!*\
+  !*** ./js/src/components/FourOFourPage.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -372,10 +376,10 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ "./js/src/components/Home.js":
-/*!***********************************!*\
-  !*** ./js/src/components/Home.js ***!
-  \***********************************/
+/***/ "./js/src/components/HomePage.js":
+/*!***************************************!*\
+  !*** ./js/src/components/HomePage.js ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -558,6 +562,164 @@ var Home = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = _userContext2.default.consumer(Home);
+
+/***/ }),
+
+/***/ "./js/src/components/ProfilePage.js":
+/*!******************************************!*\
+  !*** ./js/src/components/ProfilePage.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _userContext = __webpack_require__(/*! ../context/user-context */ "./js/src/context/user-context.js");
+
+var _userContext2 = _interopRequireDefault(_userContext);
+
+var _api = __webpack_require__(/*! ../utils/api */ "./js/src/utils/api.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ProfilePage = function (_Component) {
+    _inherits(ProfilePage, _Component);
+
+    function ProfilePage() {
+        _classCallCheck(this, ProfilePage);
+
+        var _this = _possibleConstructorReturn(this, (ProfilePage.__proto__ || Object.getPrototypeOf(ProfilePage)).call(this));
+
+        _this.state = {
+            firstName: '',
+            lastName: '',
+            address: '',
+            phone: ''
+        };
+        return _this;
+    }
+
+    _createClass(ProfilePage, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var user = this.props.userCtx.user;
+            this.setState(user);
+        }
+    }, {
+        key: 'onInputChange',
+        value: function onInputChange(prop, e) {
+            this.setState(_defineProperty({}, prop, e.target.value));
+        }
+    }, {
+        key: 'update',
+        value: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                var updateUser;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                updateUser = this.props.userCtx.updateUser;
+                                _context.next = 3;
+                                return (0, _api.updateProfile)(this.state);
+
+                            case 3:
+                                updateUser(this.state);
+
+                            case 4:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function update() {
+                return _ref.apply(this, arguments);
+            }
+
+            return update;
+        }()
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'First Name'
+                ),
+                _react2.default.createElement('input', { onChange: function onChange(e) {
+                        return _this2.onInputChange('firstName', e);
+                    },
+                    value: this.state.firstName }),
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'Last Name'
+                ),
+                _react2.default.createElement('input', { onChange: function onChange(e) {
+                        return _this2.onInputChange('lastName', e);
+                    },
+                    value: this.state.lastName }),
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'Address'
+                ),
+                _react2.default.createElement('input', { onChange: function onChange(e) {
+                        return _this2.onInputChange('address', e);
+                    },
+                    value: this.state.address }),
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'Phone'
+                ),
+                _react2.default.createElement('input', { onChange: function onChange(e) {
+                        return _this2.onInputChange('phone', e);
+                    },
+                    value: this.state.phone }),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: function onClick() {
+                            return _this2.update();
+                        } },
+                    'Update'
+                )
+            );
+        }
+    }]);
+
+    return ProfilePage;
+}(_react.Component);
+
+exports.default = _userContext2.default.consumer(ProfilePage);
 
 /***/ }),
 
@@ -776,7 +938,6 @@ exports.default = function (_ref) {
         'ul',
         null,
         pets.map(function (pet) {
-            console.log(pet);
             return _react2.default.createElement(
                 'li',
                 { key: pet.name },
@@ -1043,6 +1204,15 @@ var LoginSignup = function (_Component) {
                         'div',
                         null,
                         user.email
+                    ),
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: 'profile' },
+                        _react2.default.createElement(
+                            'button',
+                            null,
+                            'Profile'
+                        )
                     ),
                     _react2.default.createElement(
                         'button',
@@ -1351,6 +1521,14 @@ var actions = {
                     isAuthenticated: false };
             }
         };
+    },
+    updateUser: function updateUser(data) {
+        return function (state) {
+            var updatedUser = _extends({}, state.user, data);
+            _jsCookie2.default.remove('user');
+            _jsCookie2.default.set('user', updatedUser);
+            return updatedUser;
+        };
     }
 };
 
@@ -1380,7 +1558,8 @@ exports.default = {
     likePet: '/api/like-pet/',
     preference: '/api/preference/',
     adminPet: '/api/admin/pet/',
-    adminUser: '/api/admin/user/'
+    adminUser: '/api/admin/user/',
+    profile: '/api/profile/'
 };
 
 /***/ }),
@@ -1398,7 +1577,7 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.adminDeletePet = exports.adminGetUsers = exports.adminGetPets = exports.adminCreatePet = exports.getPreferences = exports.toggleLikePet = exports.getPets = exports.isAuthenticated = exports.signup = exports.login = undefined;
+exports.updateProfile = exports.adminDeletePet = exports.adminGetUsers = exports.adminGetPets = exports.adminCreatePet = exports.getPreferences = exports.toggleLikePet = exports.getPets = exports.isAuthenticated = exports.signup = exports.login = undefined;
 
 var login = exports.login = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
@@ -1734,6 +1913,41 @@ var adminDeletePet = exports.adminDeletePet = function () {
 
     return function adminDeletePet(_x7) {
         return _ref10.apply(this, arguments);
+    };
+}();
+
+var updateProfile = exports.updateProfile = function () {
+    var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(data) {
+        var response;
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+            while (1) {
+                switch (_context11.prev = _context11.next) {
+                    case 0:
+                        console.log(data);
+                        _context11.next = 3;
+                        return (0, _fetch2.default)(_apiEndpoints2.default.profile, {
+                            method: 'PUT',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                    case 3:
+                        response = _context11.sent;
+                        return _context11.abrupt('return', response.json());
+
+                    case 5:
+                    case 'end':
+                        return _context11.stop();
+                }
+            }
+        }, _callee11, this);
+    }));
+
+    return function updateProfile(_x8) {
+        return _ref11.apply(this, arguments);
     };
 }();
 

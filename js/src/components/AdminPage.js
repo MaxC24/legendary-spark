@@ -17,7 +17,6 @@ class Admin extends Component {
     async componentDidMount() {
         let pets = await adminGetPets();
         let users = await adminGetUsers();
-        console.log(pets, users);
         this.setState({pets, users});
     }
 
