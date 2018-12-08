@@ -35,21 +35,15 @@ class AuthenticatedUserViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     def list(self, request):
-        if Profile.objects.filter(user_id=request.user.id).exists():
-            profile = Profile.objects.get(user=request.user.id)
-            return Response({
-                "email": request.user.email,
-                "isAdmin": request.user.is_superuser,
-                "firstName": profile.first_name,
-                "lastName": profile.last_name,
-                "address": profile.address,
-                "phone": profile.phone
-            })
-        else:
-            return Response({
-                "email": request.user.email,
-                "isAdmin": request.user.is_superuser,
-            })
+        profile = Profile.objects.get(user=request.user.id)
+        return Response({
+            "email": request.user.email,
+            "isAdmin": request.user.is_superuser,
+            "firstName": profile.first_name,
+            "lastName": profile.last_name,
+            "address": profile.address,
+            "phone": profile.phone
+        })
 
 class UserIsAuthenticatedViewSet(viewsets.ViewSet):
     authentication_classes = (TokenAuthentication,)
