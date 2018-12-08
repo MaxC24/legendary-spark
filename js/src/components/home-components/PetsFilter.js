@@ -21,7 +21,6 @@ export default class PetsFilter extends Component {
     }
 
     selectOption(prop, e) {
-        console.log(e.target.value)
         this.setState({
             [prop]: e.target.value
         })
@@ -32,12 +31,21 @@ export default class PetsFilter extends Component {
         let { breedsOptions, speciesOptions } = createFilterOptions(this.props.pets);
         return (
             <React.Fragment>
-                <Select options={breedsOptions}
-                        selected={this.state.breed}
-                        selectOption={e => this.selectOption('breed', e)}/>
-                <Select options={speciesOptions}
-                        selected={this.state.species}
-                        selectOption={e => this.selectOption('species', e)}/>
+                <div className="selects-container">
+                    <div className="select">
+                        <label>BREEDS</label>
+                        <Select options={breedsOptions}
+                                selected={this.state.breed}
+                                selectOption={e => this.selectOption('breed', e)}/>
+                    </div>
+                    <div  className="select">
+                        <label>SPECIES</label>
+                        <Select options={speciesOptions}
+                                selected={this.state.species}
+                                selectOption={e => this.selectOption('species', e)}/>
+                    </div>                    
+                </div>
+                <div className="pet-cards">
                 {
                     pets.map(pet => {
                         return <PetCard key={pet.name} 
@@ -46,6 +54,7 @@ export default class PetsFilter extends Component {
                                         preferences={this.props.preferences} />
                     })
                 }
+                </div>
             </React.Fragment>)
     }
 }

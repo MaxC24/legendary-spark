@@ -10,14 +10,14 @@ import userCtx from './src/context/user-context';
 
 let App = () => {
     return (
-        <React.Fragment>
+        <div className="container">
             <Switch>
                 <Route exact path='/' component={HomePage}/>
                 <Route exact path='/admin-page' component={AdminPage}/>
                 <Route exact path='/profile' component={ProfilePage}/>
                 <Route component={FourOFour}/>
             </Switch>
-        </React.Fragment>
+        </div>
     )
 }
 

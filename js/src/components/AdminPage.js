@@ -35,14 +35,18 @@ class Admin extends Component {
 
     render() {
         return(
-            <div>
+            <div className="admin-page">
                 <Link to=''><button>Back</button></Link>
                 <PetCreator addPet={(pet) => this.addPet(pet)} />
-                <h2>Pet List</h2>
-                <PetList pets={this.state.pets} 
-                         removePet={(id) => this.removePet(id)}/>
-                <h2>User List</h2>                
-                <UserList pets={this.state.pets} users={this.state.users} />
+                <div className="admin-list">
+                    <div>PET LIST</div>
+                    <PetList pets={this.state.pets} 
+                            removePet={(id) => this.removePet(id)}/>
+                </div>
+                <div className="admin-list">
+                    <div>USER LIST</div>                
+                    <UserList pets={this.state.pets} users={this.state.users} />
+                </div>
             </div>
         )
     }

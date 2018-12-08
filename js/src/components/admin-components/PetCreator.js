@@ -48,7 +48,7 @@ class PetCreator extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="pet-creator-form">
                 <div>CREATE A PET:</div>
                 <form onSubmit={() => this.state.createPet()}>
                     <input type="text" 

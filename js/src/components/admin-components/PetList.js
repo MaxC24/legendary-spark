@@ -6,7 +6,7 @@ export default ({pets, removePet}) => {
             {
                 pets.map(pet => {
                     return(
-                        <li key={pet.name}>
+                        <li className="pet-row" key={pet.name}>
                             <div>{pet.name}</div>
                             <div>{pet.breed}</div>
                             <div>{pet.species}</div>

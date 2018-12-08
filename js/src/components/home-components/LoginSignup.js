@@ -48,8 +48,8 @@ class LoginSignup extends Component {
 
                     }
                     <Link to="profile"><button>Profile</button></Link>
-                    <button onClick={ logout }>Logout</button>
                     { user.isAdmin ? <Link to="admin-page"><button>Admin</button></Link>: null }
+                    <button onClick={ logout }>Logout</button>
                 </div>
             );
         }

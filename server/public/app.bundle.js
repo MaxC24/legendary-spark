@@ -130,8 +130,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var App = function App() {
     return _react2.default.createElement(
-        _react2.default.Fragment,
-        null,
+        'div',
+        { className: 'container' },
         _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
@@ -298,7 +298,7 @@ var Admin = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'admin-page' },
                 _react2.default.createElement(
                     _reactRouterDom.Link,
                     { to: '' },
@@ -312,20 +312,28 @@ var Admin = function (_Component) {
                         return _this2.addPet(pet);
                     } }),
                 _react2.default.createElement(
-                    'h2',
-                    null,
-                    'Pet List'
+                    'div',
+                    { className: 'admin-list' },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        'PET LIST'
+                    ),
+                    _react2.default.createElement(_PetList2.default, { pets: this.state.pets,
+                        removePet: function removePet(id) {
+                            return _this2.removePet(id);
+                        } })
                 ),
-                _react2.default.createElement(_PetList2.default, { pets: this.state.pets,
-                    removePet: function removePet(id) {
-                        return _this2.removePet(id);
-                    } }),
                 _react2.default.createElement(
-                    'h2',
-                    null,
-                    'User List'
-                ),
-                _react2.default.createElement(_UserList2.default, { pets: this.state.pets, users: this.state.users })
+                    'div',
+                    { className: 'admin-list' },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        'USER LIST'
+                    ),
+                    _react2.default.createElement(_UserList2.default, { pets: this.state.pets, users: this.state.users })
+                )
             );
         }
     }]);
@@ -848,7 +856,7 @@ var PetCreator = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'pet-creator-form' },
                 _react2.default.createElement(
                     'div',
                     null,
@@ -941,42 +949,42 @@ exports.default = function (_ref) {
         removePet = _ref.removePet;
 
     return _react2.default.createElement(
-        'ul',
+        "ul",
         null,
         pets.map(function (pet) {
             return _react2.default.createElement(
-                'li',
-                { key: pet.name },
+                "li",
+                { className: "pet-row", key: pet.name },
                 _react2.default.createElement(
-                    'div',
+                    "div",
                     null,
                     pet.name
                 ),
                 _react2.default.createElement(
-                    'div',
+                    "div",
                     null,
                     pet.breed
                 ),
                 _react2.default.createElement(
-                    'div',
+                    "div",
                     null,
                     pet.species
                 ),
                 pet.adoption ? _react2.default.createElement(
-                    'div',
+                    "div",
                     null,
-                    'Adopt ME! '
+                    "Adopt ME! "
                 ) : _react2.default.createElement(
-                    'div',
+                    "div",
                     null,
-                    '$' + pet.price
+                    "$" + pet.price
                 ),
                 _react2.default.createElement(
-                    'button',
+                    "button",
                     { onClick: function onClick() {
                             return removePet(pet.id);
                         } },
-                    'Delete'
+                    "Delete"
                 )
             );
         })
@@ -1274,11 +1282,6 @@ var LoginSignup = function (_Component) {
                             'Profile'
                         )
                     ),
-                    _react2.default.createElement(
-                        'button',
-                        { onClick: logout },
-                        'Logout'
-                    ),
                     user.isAdmin ? _react2.default.createElement(
                         _reactRouterDom.Link,
                         { to: 'admin-page' },
@@ -1287,7 +1290,12 @@ var LoginSignup = function (_Component) {
                             null,
                             'Admin'
                         )
-                    ) : null
+                    ) : null,
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: logout },
+                        'Logout'
+                    )
                 );
             }
             return _react2.default.createElement(
@@ -1492,7 +1500,6 @@ var PetsFilter = function (_Component) {
     }, {
         key: 'selectOption',
         value: function selectOption(prop, e) {
-            console.log(e.target.value);
             this.setState(_defineProperty({}, prop, e.target.value));
         }
     }, {
@@ -1509,24 +1516,50 @@ var PetsFilter = function (_Component) {
             return _react2.default.createElement(
                 _react2.default.Fragment,
                 null,
-                _react2.default.createElement(_Select2.default, { options: breedsOptions,
-                    selected: this.state.breed,
-                    selectOption: function selectOption(e) {
-                        return _this3.selectOption('breed', e);
-                    } }),
-                _react2.default.createElement(_Select2.default, { options: speciesOptions,
-                    selected: this.state.species,
-                    selectOption: function selectOption(e) {
-                        return _this3.selectOption('species', e);
-                    } }),
-                pets.map(function (pet) {
-                    return _react2.default.createElement(_PetCard2.default, { key: pet.name,
-                        pet: pet,
-                        togglePreference: function togglePreference() {
-                            return _this3.props.togglePreference(pet.id);
-                        },
-                        preferences: _this3.props.preferences });
-                })
+                _react2.default.createElement(
+                    'div',
+                    { className: 'selects-container' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'select' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'BREEDS'
+                        ),
+                        _react2.default.createElement(_Select2.default, { options: breedsOptions,
+                            selected: this.state.breed,
+                            selectOption: function selectOption(e) {
+                                return _this3.selectOption('breed', e);
+                            } })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'select' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'SPECIES'
+                        ),
+                        _react2.default.createElement(_Select2.default, { options: speciesOptions,
+                            selected: this.state.species,
+                            selectOption: function selectOption(e) {
+                                return _this3.selectOption('species', e);
+                            } })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'pet-cards' },
+                    pets.map(function (pet) {
+                        return _react2.default.createElement(_PetCard2.default, { key: pet.name,
+                            pet: pet,
+                            togglePreference: function togglePreference() {
+                                return _this3.props.togglePreference(pet.id);
+                            },
+                            preferences: _this3.props.preferences });
+                    })
+                )
             );
         }
     }]);
@@ -12453,7 +12486,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, ".pet-card {\n  width: 300px;\n  display: flex;\n  align-items: center;\n  flex-direction: column;\n  margin: 10px;\n  padding: 10px;\n}\n.pet-card img {\n  width: 150px;\n  height: 150px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  margin: 30px;\n}\n* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n", ""]);
+exports.push([module.i, ".pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n}\nbutton,\nselect,\ninput[type=text] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\nul li {\n  display: flex;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  margin: auto;\n  margin-bottom: 10px;\n  border: 1px solid #efefef;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n", ""]);
 
 // exports
 
