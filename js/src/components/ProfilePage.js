@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import userCtx from '../context/user-context';
 import { updateProfile } from '../utils/api';
+import { withRouter } from 'react-router-dom';
 
 class ProfilePage extends Component {
     constructor(){
@@ -27,7 +28,8 @@ class ProfilePage extends Component {
     async update() {
         let { updateUser } = this.props.userCtx;
         await updateProfile(this.state);
-        updateUser(this.state);
+        await updateUser(this.state);
+        this.props.history.goBack();
     }
 
     render() {
@@ -51,4 +53,4 @@ class ProfilePage extends Component {
     }
 }
 
-export default userCtx.consumer(ProfilePage);
+export default userCtx.consumer(withRouter(ProfilePage));

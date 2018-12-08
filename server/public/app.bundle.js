@@ -591,6 +591,8 @@ var _userContext2 = _interopRequireDefault(_userContext);
 
 var _api = __webpack_require__(/*! ../utils/api */ "./js/src/utils/api.js");
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -645,9 +647,13 @@ var ProfilePage = function (_Component) {
                                 return (0, _api.updateProfile)(this.state);
 
                             case 3:
-                                updateUser(this.state);
+                                _context.next = 5;
+                                return updateUser(this.state);
 
-                            case 4:
+                            case 5:
+                                this.props.history.goBack();
+
+                            case 6:
                             case 'end':
                                 return _context.stop();
                         }
@@ -719,7 +725,7 @@ var ProfilePage = function (_Component) {
     return ProfilePage;
 }(_react.Component);
 
-exports.default = _userContext2.default.consumer(ProfilePage);
+exports.default = _userContext2.default.consumer((0, _reactRouterDom.withRouter)(ProfilePage));
 
 /***/ }),
 
@@ -1036,6 +1042,55 @@ exports.default = function (_ref) {
 
 /***/ }),
 
+/***/ "./js/src/components/generic-componets/Select.js":
+/*!*******************************************************!*\
+  !*** ./js/src/components/generic-componets/Select.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Select = function Select(_ref) {
+    var options = _ref.options,
+        selected = _ref.selected,
+        selectOption = _ref.selectOption;
+
+    return _react2.default.createElement(
+        'select',
+        { value: selected, onChange: function onChange(e) {
+                return selectOption(e);
+            } },
+        _react2.default.createElement(
+            'option',
+            { value: '' },
+            'ALL'
+        ),
+        options.map(function (value) {
+            return _react2.default.createElement(
+                'option',
+                { key: value, value: value },
+                value
+            );
+        })
+    );
+};
+
+exports.default = Select;
+
+/***/ }),
+
 /***/ "./js/src/components/home-components/LoginSignup.js":
 /*!**********************************************************!*\
   !*** ./js/src/components/home-components/LoginSignup.js ***!
@@ -1200,7 +1255,12 @@ var LoginSignup = function (_Component) {
                 return _react2.default.createElement(
                     'div',
                     { className: 'auth-forms' },
-                    _react2.default.createElement(
+                    user.firstName ? _react2.default.createElement(
+                        'div',
+                        null,
+                        user.firstName,
+                        ' '
+                    ) : _react2.default.createElement(
                         'div',
                         null,
                         user.email
@@ -1389,7 +1449,15 @@ var _PetCard = __webpack_require__(/*! ./PetCard */ "./js/src/components/home-co
 
 var _PetCard2 = _interopRequireDefault(_PetCard);
 
+var _filter = __webpack_require__(/*! ./utils/filter */ "./js/src/components/home-components/utils/filter.js");
+
+var _Select = __webpack_require__(/*! ../generic-componets/Select */ "./js/src/components/generic-componets/Select.js");
+
+var _Select2 = _interopRequireDefault(_Select);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1422,14 +1490,35 @@ var PetsFilter = function (_Component) {
             });
         }
     }, {
+        key: 'selectOption',
+        value: function selectOption(prop, e) {
+            console.log(e.target.value);
+            this.setState(_defineProperty({}, prop, e.target.value));
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
 
             var pets = this.filterPets(this.props.pets);
+
+            var _createFilterOptions = (0, _filter.createFilterOptions)(this.props.pets),
+                breedsOptions = _createFilterOptions.breedsOptions,
+                speciesOptions = _createFilterOptions.speciesOptions;
+
             return _react2.default.createElement(
                 _react2.default.Fragment,
                 null,
+                _react2.default.createElement(_Select2.default, { options: breedsOptions,
+                    selected: this.state.breed,
+                    selectOption: function selectOption(e) {
+                        return _this3.selectOption('breed', e);
+                    } }),
+                _react2.default.createElement(_Select2.default, { options: speciesOptions,
+                    selected: this.state.species,
+                    selectOption: function selectOption(e) {
+                        return _this3.selectOption('species', e);
+                    } }),
                 pets.map(function (pet) {
                     return _react2.default.createElement(_PetCard2.default, { key: pet.name,
                         pet: pet,
@@ -1446,6 +1535,35 @@ var PetsFilter = function (_Component) {
 }(_react.Component);
 
 exports.default = PetsFilter;
+
+/***/ }),
+
+/***/ "./js/src/components/home-components/utils/filter.js":
+/*!***********************************************************!*\
+  !*** ./js/src/components/home-components/utils/filter.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.createFilterOptions = createFilterOptions;
+function createFilterOptions(pets) {
+    var breeds = [];
+    var species = [];
+    pets.forEach(function (pet) {
+        if (!breeds.includes(pet.breed)) breeds.push(pet.breed);
+        if (!species.includes(pet.species)) species.push(pet.species);
+    });
+    return {
+        breedsOptions: breeds,
+        speciesOptions: species
+    };
+}
 
 /***/ }),
 
