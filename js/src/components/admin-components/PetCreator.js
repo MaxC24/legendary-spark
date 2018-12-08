@@ -64,29 +64,27 @@ class PetCreator extends React.Component {
                     <input type="text" 
                            placeholder="Name"
                            onChange={e => this.onInputChange('name', e)}
-                           pattern="[a-zA-Z]{1,255}" required
+                           required
                            value={this.state.name}/>
                     <input type="text" 
                            placeholder="Age"
                            onChange={e => this.onInputChange('age', e)}
-                           pattern="\d+" required
+                           pattern="\d+\s*?" required
                            value={this.state.age}/>
                     <input type="text" 
                            placeholder="Breed"
-                           onChange={e => this.onInputChange('breed', e)}
-                           pattern="[a-zA-Z]{1,255}"  
+                           onChange={e => this.onInputChange('breed', e)} 
                            required
                            value={this.state.breed}/>
                     <input type="text" 
                            placeholder="Species"
                            onChange={e => this.onInputChange('species', e)}
-                           pattern="[a-zA-Z]{1,255}"
                            required
                            value={this.state.species}/>
                     <input type="text" 
                            placeholder="Price"
                            onChange={e => this.onInputChange('price', e)}
-                           pattern="\d+\.?\d{1,2}"  
+                           pattern="\d+\.?\d{1,2}\s*?"  
                            required
                            value={this.state.price}/>
                     <div className="pet-creator-last-row">

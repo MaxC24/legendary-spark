@@ -888,21 +888,20 @@ var PetCreator = function (_React$Component) {
                         onChange: function onChange(e) {
                             return _this2.onInputChange('name', e);
                         },
-                        pattern: '[a-zA-Z]{1,255}', required: true,
+                        required: true,
                         value: this.state.name }),
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: 'Age',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('age', e);
                         },
-                        pattern: '\\d+', required: true,
+                        pattern: '\\d+\\s*?', required: true,
                         value: this.state.age }),
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: 'Breed',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('breed', e);
                         },
-                        pattern: '[a-zA-Z]{1,255}',
                         required: true,
                         value: this.state.breed }),
                     _react2.default.createElement('input', { type: 'text',
@@ -910,7 +909,6 @@ var PetCreator = function (_React$Component) {
                         onChange: function onChange(e) {
                             return _this2.onInputChange('species', e);
                         },
-                        pattern: '[a-zA-Z]{1,255}',
                         required: true,
                         value: this.state.species }),
                     _react2.default.createElement('input', { type: 'text',
@@ -918,7 +916,7 @@ var PetCreator = function (_React$Component) {
                         onChange: function onChange(e) {
                             return _this2.onInputChange('price', e);
                         },
-                        pattern: '\\d+\\.?\\d{1,2}',
+                        pattern: '\\d+\\.?\\d{1,2}\\s*?',
                         required: true,
                         value: this.state.price }),
                     _react2.default.createElement(
