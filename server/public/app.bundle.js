@@ -2142,8 +2142,7 @@ var updateProfile = exports.updateProfile = function () {
             while (1) {
                 switch (_context11.prev = _context11.next) {
                     case 0:
-                        console.log(data);
-                        _context11.next = 3;
+                        _context11.next = 2;
                         return (0, _fetch2.default)(_apiEndpoints2.default.profile, {
                             method: 'PUT',
                             headers: {
@@ -2153,11 +2152,11 @@ var updateProfile = exports.updateProfile = function () {
                             body: JSON.stringify(data)
                         });
 
-                    case 3:
+                    case 2:
                         response = _context11.sent;
                         return _context11.abrupt('return', response.json());
 
-                    case 5:
+                    case 4:
                     case 'end':
                         return _context11.stop();
                 }

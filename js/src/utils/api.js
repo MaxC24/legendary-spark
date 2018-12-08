@@ -95,7 +95,6 @@ export async function adminDeletePet(id) {
 }
 
 export async function updateProfile(data) {
-    console.log(data);
     let response = await fetch(api.profile, {
         method: 'PUT',
         headers: {

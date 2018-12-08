@@ -20,8 +20,9 @@ A small pet store.
 #### To run the app locally:
 
 - Pull the repo from github.
-- Create a virtual env in the repo folder for example: `virtualenv .` 
-- run the following commands:
+- Create a virtual environment in the repo folder, for example by using virtualenv: `virtualenv .` 
+- Start the virtual environment.
+- then run the following commands:
 
   `pip install -r requirements.txt`
 
