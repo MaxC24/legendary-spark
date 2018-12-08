@@ -55,18 +55,21 @@ class LoginSignup extends Component {
         }
         return( 
             <div className="auth-forms">
-                <div>
-                    <input onChange={(e) => this.inputChange('loginEmail', e)} 
+                <div className="auth-form">
+                    <input type="text"
+                           onChange={(e) => this.inputChange('loginEmail', e)} 
                            value={this.state.loginEmail} 
                            placeholder="Email"/>
-                    <input onChange={(e) => this.inputChange('loginPassword', e)} 
+                    <input type="text"
+                           onChange={(e) => this.inputChange('loginPassword', e)} 
                            value={this.state.loginPassword} 
                            type="password" 
                            placeholder="Password"/>
                     <button onClick={() => this.login()}>Login</button>
                 </div>
-                <div>
-                    <input onChange={(e) => this.inputChange('signupEmail', e)} 
+                <div className="auth-form">
+                    <input type="text"
+                           onChange={(e) => this.inputChange('signupEmail', e)} 
                            value={this.state.signupEmail}  
                            placeholder="Email"/>
                     <input onChange={(e) => this.inputChange('signupPassword', e)} 
