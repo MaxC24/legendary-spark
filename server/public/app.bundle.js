@@ -917,7 +917,6 @@ var PetCreator = function (_React$Component) {
                             return _this2.onInputChange('price', e);
                         },
                         pattern: '\\d+\\.?\\d{1,2}\\s*?',
-                        required: true,
                         value: this.state.price }),
                     _react2.default.createElement(
                         'div',
@@ -1559,8 +1558,12 @@ var PetsFilter = function (_Component) {
             var _this2 = this;
 
             return pets.filter(function (pet) {
-                return (pet.breed === _this2.state.breed || _this2.state.breed === '') && (pet.species === _this2.state.species || _this2.state.species === '');
+                return (tl(pet.breed) === tl(_this2.state.breed) || tl(_this2.state.breed) === '') && (tl(pet.species) === tl(_this2.state.species) || tl(_this2.state.species) === '');
             });
+            //trim and lowercase:
+            function tl(str) {
+                return str.toLowerCase().trim();
+            }
         }
     }, {
         key: 'selectOption',

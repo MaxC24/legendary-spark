@@ -15,9 +15,13 @@ export default class PetsFilter extends Component {
 
     filterPets(pets) {
         return pets.filter(pet => {
-            return (pet.breed === this.state.breed || this.state.breed === '') && 
-                   (pet.species === this.state.species || this.state.species === '')
+            return (tl(pet.breed) === tl(this.state.breed) || tl(this.state.breed) === '') && 
+                   (tl(pet.species) === tl(this.state.species) || tl(this.state.species) === '')
         })
+        //trim and lowercase:
+        function tl(str){
+            return str.toLowerCase().trim();
+        }
     }
 
     selectOption(prop, e) {

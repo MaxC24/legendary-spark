@@ -84,8 +84,7 @@ class PetCreator extends React.Component {
                     <input type="text" 
                            placeholder="Price"
                            onChange={e => this.onInputChange('price', e)}
-                           pattern="\d+\.?\d{1,2}\s*?"  
-                           required
+                           pattern="\d+\.?\d{1,2}\s*?"
                            value={this.state.price}/>
                     <div className="pet-creator-last-row">
                         <div>
