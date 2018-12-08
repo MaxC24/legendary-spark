@@ -682,49 +682,66 @@ var ProfilePage = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'profile-page' },
                 _react2.default.createElement(
-                    'label',
-                    null,
-                    'First Name'
+                    _reactRouterDom.Link,
+                    { to: '/' },
+                    _react2.default.createElement(
+                        'button',
+                        null,
+                        'Back'
+                    )
                 ),
-                _react2.default.createElement('input', { onChange: function onChange(e) {
-                        return _this2.onInputChange('firstName', e);
-                    },
-                    value: this.state.firstName }),
                 _react2.default.createElement(
-                    'label',
-                    null,
-                    'Last Name'
-                ),
-                _react2.default.createElement('input', { onChange: function onChange(e) {
-                        return _this2.onInputChange('lastName', e);
-                    },
-                    value: this.state.lastName }),
-                _react2.default.createElement(
-                    'label',
-                    null,
-                    'Address'
-                ),
-                _react2.default.createElement('input', { onChange: function onChange(e) {
-                        return _this2.onInputChange('address', e);
-                    },
-                    value: this.state.address }),
-                _react2.default.createElement(
-                    'label',
-                    null,
-                    'Phone'
-                ),
-                _react2.default.createElement('input', { onChange: function onChange(e) {
-                        return _this2.onInputChange('phone', e);
-                    },
-                    value: this.state.phone }),
-                _react2.default.createElement(
-                    'button',
-                    { onClick: function onClick() {
-                            return _this2.update();
-                        } },
-                    'Update'
+                    'div',
+                    { className: 'profile-form' },
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'First Name'
+                    ),
+                    _react2.default.createElement('input', { type: 'text',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('firstName', e);
+                        },
+                        value: this.state.firstName }),
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'Last Name'
+                    ),
+                    _react2.default.createElement('input', { type: 'text',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('lastName', e);
+                        },
+                        value: this.state.lastName }),
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'Address'
+                    ),
+                    _react2.default.createElement('input', { type: 'text',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('address', e);
+                        },
+                        value: this.state.address }),
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'Phone'
+                    ),
+                    _react2.default.createElement('input', { type: 'text',
+                        onChange: function onChange(e) {
+                            return _this2.onInputChange('phone', e);
+                        },
+                        value: this.state.phone }),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: function onClick() {
+                                return _this2.update();
+                            } },
+                        'Update'
+                    )
                 )
             );
         }
@@ -863,10 +880,8 @@ var PetCreator = function (_React$Component) {
                     'CREATE A PET:'
                 ),
                 _react2.default.createElement(
-                    'form',
-                    { onSubmit: function onSubmit() {
-                            return _this2.state.createPet();
-                        } },
+                    'div',
+                    null,
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: 'Name',
                         onChange: function onChange(e) {
@@ -893,24 +908,32 @@ var PetCreator = function (_React$Component) {
                             return _this2.onInputChange('price', e);
                         } }),
                     _react2.default.createElement(
-                        'label',
-                        null,
-                        'Adoption'
-                    ),
-                    _react2.default.createElement('input', { type: 'checkbox',
-                        onChange: function onChange(e) {
-                            return _this2.onCheckboxChange(e);
-                        } }),
-                    _react2.default.createElement('input', { type: 'file',
-                        onChange: function onChange(e) {
-                            return _this2.onFileInputChange(e);
-                        } }),
-                    _react2.default.createElement(
-                        'button',
-                        { onClick: function onClick(e) {
-                                return _this2.createPet(e);
-                            } },
-                        'Create Pet'
+                        'div',
+                        { className: 'pet-creator-last-row' },
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            _react2.default.createElement(
+                                'label',
+                                null,
+                                'Adoption'
+                            ),
+                            _react2.default.createElement('input', { type: 'checkbox',
+                                onChange: function onChange(e) {
+                                    return _this2.onCheckboxChange(e);
+                                } })
+                        ),
+                        _react2.default.createElement('input', { type: 'file',
+                            onChange: function onChange(e) {
+                                return _this2.onFileInputChange(e);
+                            } }),
+                        _react2.default.createElement(
+                            'button',
+                            { onClick: function onClick(e) {
+                                    return _this2.createPet(e);
+                                } },
+                            'Create Pet'
+                        )
                     )
                 )
             );
@@ -1394,10 +1417,15 @@ var PetCard = function PetCard(_ref) {
         togglePreference = _ref.togglePreference;
 
     var likedByUser = preferences.includes(pet.id);
-    var btnClass = (0, _classnames2.default)('like-btn', { liked: likedByUser });
+    var iconClass = (0, _classnames2.default)({
+        "fa fa-heart fa-2x": likedByUser,
+        'fa fa-heart-o fa-2x': !likedByUser
+    });
     return _react2.default.createElement(
         'div',
-        { className: 'pet-card' },
+        { onClick: function onClick() {
+                return togglePreference(pet.id);
+            }, className: 'pet-card' },
         _react2.default.createElement(
             'div',
             null,
@@ -1427,8 +1455,11 @@ var PetCard = function PetCard(_ref) {
             '$' + pet.price
         ),
         _react2.default.createElement('img', { src: pet.picture }),
-        user ? _react2.default.createElement('div', { className: btnClass,
-            onClick: togglePreference }) : null
+        user ? _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('i', { 'class': iconClass, 'aria-hidden': likedByUser })
+        ) : null
     );
 };
 
@@ -12489,7 +12520,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, ".pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\nul li {\n  display: flex;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  margin: auto;\n  margin-bottom: 10px;\n  border: 1px solid #efefef;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n", ""]);
+exports.push([module.i, ".pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\nul li {\n  display: flex;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  margin: auto;\n  margin-bottom: 10px;\n  border: 1px solid #efefef;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n  width: 100px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n", ""]);
 
 // exports
 

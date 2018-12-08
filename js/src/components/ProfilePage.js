@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import userCtx from '../context/user-context';
 import { updateProfile } from '../utils/api';
 import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class ProfilePage extends Component {
     constructor(){
@@ -34,20 +35,27 @@ class ProfilePage extends Component {
 
     render() {
         return (
-            <div>
-                <label>First Name</label>
-                <input onChange={(e) => this.onInputChange('firstName', e)} 
-                       value={this.state.firstName}/>
-                <label>Last Name</label>
-                <input onChange={(e) => this.onInputChange('lastName', e)} 
-                       value={this.state.lastName}/>
-                <label>Address</label>
-                <input onChange={(e) => this.onInputChange('address', e)} 
-                       value={this.state.address}/>
-                <label>Phone</label>
-                <input onChange={(e) => this.onInputChange('phone', e)} 
-                       value={this.state.phone}/>
-                <button onClick={() => this.update()}>Update</button>
+            <div className="profile-page">
+                <Link to="/"><button>Back</button></Link>
+                <div className="profile-form">
+                    <label>First Name</label>
+                    <input type="text"
+                        onChange={(e) => this.onInputChange('firstName', e)} 
+                        value={this.state.firstName}/>
+                    <label>Last Name</label>
+                    <input type="text"
+                            onChange={(e) => this.onInputChange('lastName', e)} 
+                        value={this.state.lastName}/>
+                    <label>Address</label>
+                    <input type="text"
+                            onChange={(e) => this.onInputChange('address', e)} 
+                        value={this.state.address}/>
+                    <label>Phone</label>
+                    <input type="text"
+                            onChange={(e) => this.onInputChange('phone', e)} 
+                        value={this.state.phone}/>
+                    <button onClick={() => this.update()}>Update</button>
+                </div>
             </div>
         )
     }

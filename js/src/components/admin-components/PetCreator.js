@@ -50,7 +50,7 @@ class PetCreator extends React.Component {
         return (
             <div className="pet-creator-form">
                 <div>CREATE A PET:</div>
-                <form onSubmit={() => this.state.createPet()}>
+                <div>
                     <input type="text" 
                            placeholder="Name"
                            onChange={e => this.onInputChange('name', e)}/>
@@ -66,13 +66,17 @@ class PetCreator extends React.Component {
                     <input type="text" 
                            placeholder="Price"
                            onChange={e => this.onInputChange('price', e)} />
-                    <label>Adoption</label>
-                    <input type="checkbox" 
-                            onChange={e => this.onCheckboxChange(e)} />
-                    <input type="file"
-                           onChange={e => this.onFileInputChange(e)}  />
-                    <button onClick={e => this.createPet(e)}>Create Pet</button>
-                </form>
+                    <div className="pet-creator-last-row">
+                        <div>
+                            <label>Adoption</label>
+                            <input type="checkbox" 
+                                    onChange={e => this.onCheckboxChange(e)} />
+                        </div>
+                        <input type="file"
+                            onChange={e => this.onFileInputChange(e)}  />
+                        <button onClick={e => this.createPet(e)}>Create Pet</button>
+                    </div>
+                </div>
             </div>
         )
     }

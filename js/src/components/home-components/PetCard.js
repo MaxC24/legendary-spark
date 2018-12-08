@@ -4,16 +4,18 @@ import classNames from 'classnames';
 
 let PetCard = ({userCtx: { user }, pet, preferences, togglePreference}) => {
     let likedByUser = preferences.includes(pet.id);
-    let btnClass = classNames('like-btn', {liked: likedByUser})
+    let iconClass = classNames({ 
+        "fa fa-heart fa-2x": likedByUser,
+        'fa fa-heart-o fa-2x': !likedByUser
+    })
     return(
-        <div className="pet-card">
+        <div onClick={() => togglePreference(pet.id)} className="pet-card">
             <div>Name: {pet.name}</div>
             <div>Breed: {pet.breed}</div>
             <div>Species: {pet.species}</div>
             { pet.adoption ? <div>Adopt ME! </div> : <div>Price: {`$${pet.price}`}</div> }
             <img src={ pet.picture } />
-            { user ? <div className={btnClass} 
-                             onClick={togglePreference}></div> : null }
+            { user ? <div><i class={iconClass} aria-hidden={likedByUser}></i></div> : null }
         </div>
     )
 }
