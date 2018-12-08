@@ -884,35 +884,35 @@ var PetCreator = function (_React$Component) {
                             return _this2.createPet(e);
                         } },
                     _react2.default.createElement('input', { type: 'text',
-                        placeholder: 'Name',
+                        placeholder: '* Name',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('name', e);
                         },
                         required: true,
                         value: this.state.name }),
                     _react2.default.createElement('input', { type: 'text',
-                        placeholder: 'Age',
+                        placeholder: '* Age (Number)',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('age', e);
                         },
                         pattern: '\\d+\\s*?', required: true,
                         value: this.state.age }),
                     _react2.default.createElement('input', { type: 'text',
-                        placeholder: 'Breed',
+                        placeholder: '* Breed',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('breed', e);
                         },
                         required: true,
                         value: this.state.breed }),
                     _react2.default.createElement('input', { type: 'text',
-                        placeholder: 'Species',
+                        placeholder: '* Species',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('species', e);
                         },
                         required: true,
                         value: this.state.species }),
                     _react2.default.createElement('input', { type: 'text',
-                        placeholder: 'Price',
+                        placeholder: 'Price (Number with max 2 decimal points)',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('price', e);
                         },

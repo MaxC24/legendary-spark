@@ -62,27 +62,27 @@ class PetCreator extends React.Component {
                 <div>CREATE A PET:</div>
                 <form  id="form" onSubmit={e => this.createPet(e)}>
                     <input type="text" 
-                           placeholder="Name"
+                           placeholder="* Name"
                            onChange={e => this.onInputChange('name', e)}
                            required
                            value={this.state.name}/>
                     <input type="text" 
-                           placeholder="Age"
+                           placeholder="* Age (Number)"
                            onChange={e => this.onInputChange('age', e)}
                            pattern="\d+\s*?" required
                            value={this.state.age}/>
                     <input type="text" 
-                           placeholder="Breed"
+                           placeholder="* Breed"
                            onChange={e => this.onInputChange('breed', e)} 
                            required
                            value={this.state.breed}/>
                     <input type="text" 
-                           placeholder="Species"
+                           placeholder="* Species"
                            onChange={e => this.onInputChange('species', e)}
                            required
                            value={this.state.species}/>
                     <input type="text" 
-                           placeholder="Price"
+                           placeholder="Price (Number with max 2 decimal points)"
                            onChange={e => this.onInputChange('price', e)}
                            pattern="\d+\.?\d{1,2}\s*?"
                            value={this.state.price}/>
