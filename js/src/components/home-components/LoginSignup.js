@@ -9,7 +9,8 @@ class LoginSignup extends Component {
             loginEmail: '',
             loginPassword: '',
             signupEmail: '',
-            signupPassword: ''
+            signupPassword: '',
+            loginError: ''
         }
     }
 
@@ -20,13 +21,20 @@ class LoginSignup extends Component {
 
     inputChange(key, e) {
         this.setState({
-            [key]: e.target.value
+            [key]: e.target.value,
+            loginError: ''
         });
     }
 
     async login() {
         const { login } = this.props.userCtx;
-        await login(this.state.loginEmail, this.state.loginPassword)
+        try {
+            await login(this.state.loginEmail, this.state.loginPassword);
+        } catch(e) {
+            this.setState({
+                loginError: e.message
+            })
+        }
         await this.props.setPreferences();
     }
 
@@ -56,6 +64,7 @@ class LoginSignup extends Component {
         return( 
             <div className="auth-forms">
                 <div className="auth-form">
+                    { this.state.loginError ? <div className="login-error">{this.state.loginError}</div> : null}
                     <input type="text"
                            onChange={(e) => this.inputChange('loginEmail', e)} 
                            value={this.state.loginEmail} 

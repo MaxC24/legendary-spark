@@ -1201,7 +1201,8 @@ var LoginSignup = function (_Component) {
             loginEmail: '',
             loginPassword: '',
             signupEmail: '',
-            signupPassword: ''
+            signupPassword: '',
+            loginError: ''
         };
         return _this;
     }
@@ -1238,7 +1239,9 @@ var LoginSignup = function (_Component) {
     }, {
         key: 'inputChange',
         value: function inputChange(key, e) {
-            this.setState(_defineProperty({}, key, e.target.value));
+            var _setState;
+
+            this.setState((_setState = {}, _defineProperty(_setState, key, e.target.value), _defineProperty(_setState, 'loginError', ''), _setState));
         }
     }, {
         key: 'login',
@@ -1250,19 +1253,32 @@ var LoginSignup = function (_Component) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 login = this.props.userCtx.login;
-                                _context2.next = 3;
+                                _context2.prev = 1;
+                                _context2.next = 4;
                                 return login(this.state.loginEmail, this.state.loginPassword);
 
-                            case 3:
-                                _context2.next = 5;
+                            case 4:
+                                _context2.next = 9;
+                                break;
+
+                            case 6:
+                                _context2.prev = 6;
+                                _context2.t0 = _context2['catch'](1);
+
+                                this.setState({
+                                    loginError: _context2.t0.message
+                                });
+
+                            case 9:
+                                _context2.next = 11;
                                 return this.props.setPreferences();
 
-                            case 5:
+                            case 11:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this);
+                }, _callee2, this, [[1, 6]]);
             }));
 
             function login() {
@@ -1357,6 +1373,11 @@ var LoginSignup = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'auth-form' },
+                    this.state.loginError ? _react2.default.createElement(
+                        'div',
+                        { className: 'login-error' },
+                        this.state.loginError
+                    ) : null,
                     _react2.default.createElement('input', { type: 'text',
                         onChange: function onChange(e) {
                             return _this2.inputChange('loginEmail', e);
@@ -12553,7 +12574,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n  margin-bottom: 100px;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  padding: 5px;\n  margin: auto;\n  margin-bottom: 5px;\n  border: 2px solid #ddd;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n  width: 100px;\n}\n.pet-row img {\n  height: 40px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.admin-user-list > li {\n  margin-bottom: 20px;\n}\n.list-user {\n  margin-bottom: 20px;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n.pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.heart-icon {\n  color: #f00;\n}\n", ""]);
+exports.push([module.i, "* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n  margin-bottom: 100px;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  padding: 5px;\n  margin: auto;\n  margin-bottom: 5px;\n  border: 2px solid #ddd;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n  width: 100px;\n}\n.pet-row img {\n  height: 40px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.admin-user-list > li {\n  margin-bottom: 20px;\n}\n.list-user {\n  margin-bottom: 20px;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n.pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.heart-icon {\n  color: #f00;\n}\n.login-error {\n  position: absolute;\n  color: #f00;\n  top: 217px;\n}\n", ""]);
 
 // exports
 
