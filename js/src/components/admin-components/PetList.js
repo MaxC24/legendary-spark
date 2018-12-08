@@ -5,12 +5,13 @@ export default ({pets, removePet}) => {
         <ul>
             {
                 pets.map(pet => {
+                    console.log(pet)
                     return(
                         <li key={pet.name}>
                             <div>{pet.name}</div>
                             <div>{pet.breed}</div>
                             <div>{pet.species}</div>
-                            <div>{`$${pet.price}`}</div>
+                            { pet.adoption ? <div>Adopt ME! </div> : <div>{`$${pet.price}`}</div> }
                             <button onClick={() => removePet(pet.id)}>Delete</button>
                         </li>
                     )

@@ -22,14 +22,18 @@ export async function login(email, password) {
 }
 
 export async function signup(email, password) {
-    let response = await fetch(api.signup, {
+    await fetch(api.signup, {
         method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             email,
             password
         })
     });
-    return response.json();
+    return login(email, password);
 }
 
 export async function isAuthenticated(){

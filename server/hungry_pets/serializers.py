@@ -5,7 +5,7 @@ from hungry_pets.models.user import User
 class PetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pet
-        fields = ( 'id', 'age', 'breed', 'name', 'picture', 'price', 'species')
+        fields = ( 'id', 'age', 'breed', 'name', 'picture', 'price', 'species', 'adoption')
 
 
 class UserSerializer(serializers.ModelSerializer):

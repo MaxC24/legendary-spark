@@ -28,7 +28,7 @@ class Admin extends Component {
     }
 
     async removePet(id) {
-        let response = await adminDeletePet(id)
+        await adminDeletePet(id)
         this.setState({
             pets: this.state.pets.filter(pet => pet.id !== id)
         })

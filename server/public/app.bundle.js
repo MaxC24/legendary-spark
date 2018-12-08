@@ -259,7 +259,6 @@ var Admin = function (_Component) {
         key: 'removePet',
         value: function () {
             var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id) {
-                var response;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -268,15 +267,13 @@ var Admin = function (_Component) {
                                 return (0, _api.adminDeletePet)(id);
 
                             case 2:
-                                response = _context2.sent;
-
                                 this.setState({
                                     pets: this.state.pets.filter(function (pet) {
                                         return pet.id !== id;
                                     })
                                 });
 
-                            case 4:
+                            case 3:
                             case 'end':
                                 return _context2.stop();
                         }
@@ -623,6 +620,13 @@ var PetCreator = function (_React$Component) {
             this.setState(_defineProperty({}, prop, e.target.value));
         }
     }, {
+        key: 'onCheckboxChange',
+        value: function onCheckboxChange(e) {
+            this.setState({
+                adoption: e.target.checked
+            });
+        }
+    }, {
         key: 'onFileInputChange',
         value: function onFileInputChange(e) {
             this.setState({
@@ -680,7 +684,7 @@ var PetCreator = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     null,
-                    'FORM EXAMPLE:'
+                    'CREATE A PET:'
                 ),
                 _react2.default.createElement(
                     'form',
@@ -711,6 +715,15 @@ var PetCreator = function (_React$Component) {
                         placeholder: 'Price',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('price', e);
+                        } }),
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'Adoption'
+                    ),
+                    _react2.default.createElement('input', { type: 'checkbox',
+                        onChange: function onChange(e) {
+                            return _this2.onCheckboxChange(e);
                         } }),
                     _react2.default.createElement('input', { type: 'file',
                         onChange: function onChange(e) {
@@ -763,6 +776,7 @@ exports.default = function (_ref) {
         'ul',
         null,
         pets.map(function (pet) {
+            console.log(pet);
             return _react2.default.createElement(
                 'li',
                 { key: pet.name },
@@ -781,7 +795,11 @@ exports.default = function (_ref) {
                     null,
                     pet.species
                 ),
-                _react2.default.createElement(
+                pet.adoption ? _react2.default.createElement(
+                    'div',
+                    null,
+                    'Adopt ME! '
+                ) : _react2.default.createElement(
                     'div',
                     null,
                     '$' + pet.price
@@ -1157,7 +1175,11 @@ var PetCard = function PetCard(_ref) {
             'Species: ',
             pet.species
         ),
-        _react2.default.createElement(
+        pet.adoption ? _react2.default.createElement(
+            'div',
+            null,
+            'Adopt ME! '
+        ) : _react2.default.createElement(
             'div',
             null,
             'Price: ',
@@ -1442,7 +1464,6 @@ var login = exports.login = function () {
 
 var signup = exports.signup = function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(email, password) {
-        var response;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
             while (1) {
                 switch (_context2.prev = _context2.next) {
@@ -1450,6 +1471,10 @@ var signup = exports.signup = function () {
                         _context2.next = 2;
                         return (0, _fetch2.default)(_apiEndpoints2.default.signup, {
                             method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
                             body: JSON.stringify({
                                 email: email,
                                 password: password
@@ -1457,10 +1482,9 @@ var signup = exports.signup = function () {
                         });
 
                     case 2:
-                        response = _context2.sent;
-                        return _context2.abrupt('return', response.json());
+                        return _context2.abrupt('return', login(email, password));
 
-                    case 4:
+                    case 3:
                     case 'end':
                         return _context2.stop();
                 }

@@ -21,6 +21,12 @@ class PetCreator extends React.Component {
         })
     }
 
+    onCheckboxChange(e) {
+        this.setState({
+            adoption: e.target.checked
+        })
+    }
+
     onFileInputChange(e) {
         this.setState({
             picture: e.target.files[0]
@@ -43,7 +49,7 @@ class PetCreator extends React.Component {
     render() {
         return (
             <div>
-                <div>FORM EXAMPLE:</div>
+                <div>CREATE A PET:</div>
                 <form onSubmit={() => this.state.createPet()}>
                     <input type="text" 
                            placeholder="Name"
@@ -60,6 +66,9 @@ class PetCreator extends React.Component {
                     <input type="text" 
                            placeholder="Price"
                            onChange={e => this.onInputChange('price', e)} />
+                    <label>Adoption</label>
+                    <input type="checkbox" 
+                            onChange={e => this.onCheckboxChange(e)} />
                     <input type="file"
                            onChange={e => this.onFileInputChange(e)}  />
                     <button onClick={e => this.createPet(e)}>Create Pet</button>
