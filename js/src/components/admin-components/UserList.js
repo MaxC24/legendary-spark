@@ -1,24 +1,17 @@
 import React from 'react';
+import PetList from './PetList';
 
 export default ({users, pets}) => {
     return (
         <ul className="admin-user-list">
             {
-                users.map(user => {
-                    let usersPets = pets.filter(pet => pet.users.includes(user.id));
+                users.map((user, idx) => {
+                    let userPets = pets.filter(pet => pet.users.includes(user.id));
                     return(
                         <li key={user.email}>
-                            <div>{user.email}</div>
-                            {
-                                usersPets.map((pet, i) => {
-                                    return (
-                                        <div key={`${pet.name}-${i}`}>
-                                            <div>{pet.name}</div>
-                                            {/* <img src={pet.picture}/> */}
-                                        </div>
-                                    )
-                                })
-                            }
+                            <div className="list-user">{`${idx+1} - ${user.email}`}</div>
+                            { userPets.length ? <label>Pets liked:</label> : null }
+                            <PetList pets={userPets}/>
                         </li>
                     )
                 })

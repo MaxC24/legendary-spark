@@ -796,14 +796,7 @@ var PetCreator = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (PetCreator.__proto__ || Object.getPrototypeOf(PetCreator)).call(this, props));
 
-        _this.state = {
-            name: '',
-            breed: '',
-            species: '',
-            price: '',
-            age: '',
-            picture: null
-        };
+        _this.state = _this.initialState;
         return _this;
     }
 
@@ -827,6 +820,11 @@ var PetCreator = function (_React$Component) {
             });
         }
     }, {
+        key: 'resetFileInput',
+        value: function resetFileInput() {
+            this.refs.fileInput.value = '';
+        }
+    }, {
         key: 'createPet',
         value: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
@@ -836,7 +834,6 @@ var PetCreator = function (_React$Component) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 e.preventDefault();
-                                e.stopPropagation();
                                 formData = new FormData();
 
 
@@ -844,15 +841,17 @@ var PetCreator = function (_React$Component) {
                                     formData.append(key, this.state[key]);
                                 }
 
-                                _context.next = 6;
+                                _context.next = 5;
                                 return (0, _api.adminCreatePet)(formData);
 
-                            case 6:
+                            case 5:
                                 newPet = _context.sent;
 
                                 this.props.addPet(newPet);
+                                this.resetFileInput();
+                                this.setState(this.initialState);
 
-                            case 8:
+                            case 9:
                             case 'end':
                                 return _context.stop();
                         }
@@ -880,33 +879,48 @@ var PetCreator = function (_React$Component) {
                     'CREATE A PET:'
                 ),
                 _react2.default.createElement(
-                    'div',
-                    null,
+                    'form',
+                    { id: 'form', onSubmit: function onSubmit(e) {
+                            return _this2.createPet(e);
+                        } },
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: 'Name',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('name', e);
-                        } }),
+                        },
+                        pattern: '[a-zA-Z]{1,255}', required: true,
+                        value: this.state.name }),
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: 'Age',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('age', e);
-                        } }),
+                        },
+                        pattern: '\\d+', required: true,
+                        value: this.state.age }),
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: 'Breed',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('breed', e);
-                        } }),
+                        },
+                        pattern: '[a-zA-Z]{1,255}',
+                        required: true,
+                        value: this.state.breed }),
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: 'Species',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('species', e);
-                        } }),
+                        },
+                        pattern: '[a-zA-Z]{1,255}',
+                        required: true,
+                        value: this.state.species }),
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: 'Price',
                         onChange: function onChange(e) {
                             return _this2.onInputChange('price', e);
-                        } }),
+                        },
+                        pattern: '\\d+\\.?\\d{1,2}',
+                        required: true,
+                        value: this.state.price }),
                     _react2.default.createElement(
                         'div',
                         { className: 'pet-creator-last-row' },
@@ -921,22 +935,40 @@ var PetCreator = function (_React$Component) {
                             _react2.default.createElement('input', { type: 'checkbox',
                                 onChange: function onChange(e) {
                                     return _this2.onCheckboxChange(e);
-                                } })
+                                },
+                                selected: this.state.adoption })
                         ),
-                        _react2.default.createElement('input', { type: 'file',
+                        _react2.default.createElement('input', { ref: 'fileInput',
+                            type: 'file',
                             onChange: function onChange(e) {
                                 return _this2.onFileInputChange(e);
-                            } }),
+                            }, required: true,
+                            files: this.state.picture }),
                         _react2.default.createElement(
-                            'button',
-                            { onClick: function onClick(e) {
-                                    return _this2.createPet(e);
-                                } },
-                            'Create Pet'
+                            'a',
+                            { href: '#form' },
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'submit' },
+                                'Create Pet'
+                            )
                         )
                     )
                 )
             );
+        }
+    }, {
+        key: 'initialState',
+        get: function get() {
+            return {
+                name: '',
+                breed: '',
+                species: '',
+                price: '',
+                age: '',
+                picture: null,
+                adoption: false
+            };
         }
     }]);
 
@@ -993,6 +1025,7 @@ exports.default = function (_ref) {
                     null,
                     pet.species
                 ),
+                _react2.default.createElement("img", { src: pet.picture }),
                 pet.adoption ? _react2.default.createElement(
                     "div",
                     null,
@@ -1002,13 +1035,13 @@ exports.default = function (_ref) {
                     null,
                     "$" + pet.price
                 ),
-                _react2.default.createElement(
+                removePet ? _react2.default.createElement(
                     "button",
                     { onClick: function onClick() {
                             return removePet(pet.id);
                         } },
                     "Delete"
-                )
+                ) : null
             );
         })
     );
@@ -1034,6 +1067,10 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _PetList = __webpack_require__(/*! ./PetList */ "./js/src/components/admin-components/PetList.js");
+
+var _PetList2 = _interopRequireDefault(_PetList);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (_ref) {
@@ -1041,31 +1078,26 @@ exports.default = function (_ref) {
         pets = _ref.pets;
 
     return _react2.default.createElement(
-        "ul",
-        { className: "admin-user-list" },
-        users.map(function (user) {
-            var usersPets = pets.filter(function (pet) {
+        'ul',
+        { className: 'admin-user-list' },
+        users.map(function (user, idx) {
+            var userPets = pets.filter(function (pet) {
                 return pet.users.includes(user.id);
             });
             return _react2.default.createElement(
-                "li",
+                'li',
                 { key: user.email },
                 _react2.default.createElement(
-                    "div",
-                    null,
-                    user.email
+                    'div',
+                    { className: 'list-user' },
+                    idx + 1 + ' - ' + user.email
                 ),
-                usersPets.map(function (pet, i) {
-                    return _react2.default.createElement(
-                        "div",
-                        { key: pet.name + "-" + i },
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            pet.name
-                        )
-                    );
-                })
+                userPets.length ? _react2.default.createElement(
+                    'label',
+                    null,
+                    'Pets liked:'
+                ) : null,
+                _react2.default.createElement(_PetList2.default, { pets: userPets })
             );
         })
     );
@@ -12521,7 +12553,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\nul li {\n  display: flex;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  margin: auto;\n  margin-bottom: 10px;\n  border: 1px solid #efefef;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n  width: 100px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n.pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.heart-icon {\n  color: #f00;\n}\n", ""]);
+exports.push([module.i, "* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n  margin-bottom: 100px;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  padding: 5px;\n  margin: auto;\n  margin-bottom: 5px;\n  border: 2px solid #ddd;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n  width: 100px;\n}\n.pet-row img {\n  height: 40px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.admin-user-list > li {\n  margin-bottom: 20px;\n}\n.list-user {\n  margin-bottom: 20px;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n.pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.heart-icon {\n  color: #f00;\n}\n", ""]);
 
 // exports
 

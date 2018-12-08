@@ -10,11 +10,12 @@ export default ({pets, removePet}) => {
                             <div>{pet.name}</div>
                             <div>{pet.breed}</div>
                             <div>{pet.species}</div>
+                            <img src={pet.picture} />
                             { pet.adoption ? <div>Adopt ME! </div> : <div>{`$${pet.price}`}</div> }
-                            <button onClick={() => removePet(pet.id)}>Delete</button>
+                            { removePet ? <button onClick={() => removePet(pet.id)}>Delete</button> : null }
                         </li>
                     )
-                })
+                }) 
             }
         </ul>
     )
