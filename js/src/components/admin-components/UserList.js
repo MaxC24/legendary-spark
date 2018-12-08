@@ -2,7 +2,7 @@ import React from 'react';
 
 export default ({users, pets}) => {
     return (
-        <ul>
+        <ul className="admin-user-list">
             {
                 users.map(user => {
                     let usersPets = pets.filter(pet => pet.users.includes(user.id));

@@ -1041,26 +1041,26 @@ exports.default = function (_ref) {
         pets = _ref.pets;
 
     return _react2.default.createElement(
-        'ul',
-        null,
+        "ul",
+        { className: "admin-user-list" },
         users.map(function (user) {
             var usersPets = pets.filter(function (pet) {
                 return pet.users.includes(user.id);
             });
             return _react2.default.createElement(
-                'li',
+                "li",
                 { key: user.email },
                 _react2.default.createElement(
-                    'div',
+                    "div",
                     null,
                     user.email
                 ),
                 usersPets.map(function (pet, i) {
                     return _react2.default.createElement(
-                        'div',
-                        { key: pet.name + '-' + i },
+                        "div",
+                        { key: pet.name + "-" + i },
                         _react2.default.createElement(
-                            'div',
+                            "div",
                             null,
                             pet.name
                         )
@@ -1459,7 +1459,7 @@ var PetCard = function PetCard(_ref) {
         user ? _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement('i', { 'class': iconClass, 'aria-hidden': likedByUser })
+            _react2.default.createElement('i', { className: iconClass, 'aria-hidden': likedByUser })
         ) : null
     );
 };
@@ -12521,7 +12521,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, ".pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.heart-icon {\n  color: #f00;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\nul li {\n  display: flex;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  margin: auto;\n  margin-bottom: 10px;\n  border: 1px solid #efefef;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n  width: 100px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n", ""]);
+exports.push([module.i, "* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\nul li {\n  display: flex;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  margin: auto;\n  margin-bottom: 10px;\n  border: 1px solid #efefef;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n  width: 100px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n.pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.heart-icon {\n  color: #f00;\n}\n", ""]);
 
 // exports
 

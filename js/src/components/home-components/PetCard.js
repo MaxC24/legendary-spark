@@ -16,7 +16,7 @@ let PetCard = ({userCtx: { user }, pet, preferences, togglePreference}) => {
             <div>Species: {pet.species}</div>
             { pet.adoption ? <div>Adopt ME! </div> : <div>Price: {`$${pet.price}`}</div> }
             <img src={ pet.picture } />
-            { user ? <div><i class={iconClass} aria-hidden={likedByUser}></i></div> : null }
+            { user ? <div><i className={iconClass} aria-hidden={likedByUser}></i></div> : null }
         </div>
     )
 }
