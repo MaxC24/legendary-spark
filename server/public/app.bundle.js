@@ -1843,8 +1843,8 @@ var actions = {
     userIsAuthenticated: function userIsAuthenticated() {
         return function (state) {
             if (_jsCookie2.default.get('user') && _jsCookie2.default.get('token')) {
-                return (0, _api.isAuthenticated)().then(function (authenticated) {
-                    if (authenticated) {
+                return (0, _api.isAuthenticated)().then(function (response) {
+                    if (response.authenticated) {
                         return _extends({}, state, { user: JSON.parse(_jsCookie2.default.get('user')),
                             isAuthenticated: true });
                     } else {

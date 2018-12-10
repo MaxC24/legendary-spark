@@ -28,8 +28,8 @@ const actions = {
     userIsAuthenticated: () => state => {
         if(Cookies.get('user') && Cookies.get('token')){
             return isAuthenticated()
-            .then(authenticated => {
-                if(authenticated) {
+            .then(response => {
+                if(response.authenticated) {
                     return {...state, user : JSON.parse(Cookies.get('user')),
                             isAuthenticated: true};
                 } else {
