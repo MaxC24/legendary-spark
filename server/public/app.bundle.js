@@ -955,7 +955,7 @@ var PetCreatorEditor = function (_React$Component) {
                                 onChange: function onChange(e) {
                                     return _this2.onCheckboxChange(e);
                                 },
-                                selected: this.state.adoption })
+                                checked: this.state.adoption })
                         ),
                         _react2.default.createElement('input', { ref: 'fileInput',
                             type: 'file',

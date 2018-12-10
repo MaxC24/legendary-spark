@@ -98,9 +98,9 @@ class PetCreatorEditor extends React.Component {
                     <div className="pet-creator-last-row">
                         <div>
                             <label>Adoption</label>
-                            <input type="checkbox" 
-                                    onChange={e => this.onCheckboxChange(e)} 
-                                    selected={this.state.adoption}/>
+                                <input type="checkbox" 
+                                        onChange={e => this.onCheckboxChange(e)} 
+                                        checked={this.state.adoption}/>
                         </div>
                         <input ref="fileInput"
                             type="file"
