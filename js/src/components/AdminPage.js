@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import PetCreator from './admin-components/PetCreator';
+import PetCreatorEditor from './admin-components/PetCreatorEditor';
 import PetList from './admin-components/PetList';
 import UserList from './admin-components/UserList';
-import { adminGetPets, adminGetUsers, adminDeletePet } from '../utils/api';
+import { adminGetPets, adminGetUsers, adminDeletePet, adminCreatePet } from '../utils/api';
 import { Link } from 'react-router-dom';
 
 class Admin extends Component {
@@ -26,7 +26,13 @@ class Admin extends Component {
         })
     }
 
-    async removePet(id) {
+    replaceUpdatedPet(updatedPet) {
+        this.setState({pets: this.state.pets.map( pet => {
+            return updatedPet.id === pet.id ? updatedPet : pet;
+        })});
+    }
+
+    async removeDeletedPet(id) {
         await adminDeletePet(id)
         this.setState({
             pets: this.state.pets.filter(pet => pet.id !== id)
@@ -37,11 +43,14 @@ class Admin extends Component {
         return(
             <div className="admin-page">
                 <Link to=''><button>Back</button></Link>
-                <PetCreator addPet={(pet) => this.addPet(pet)} />
+                <PetCreatorEditor afterAction={(pet) => this.addPet(pet)} 
+                                  actionText="Create Pet"
+                                  action={adminCreatePet}/>
                 <div className="admin-list">
                     <div>PET LIST</div>
                     <PetList pets={this.state.pets} 
-                            removePet={(id) => this.removePet(id)}/>
+                            removeDeletedPet={(id) => this.removeDeletedPet(id)}
+                            replaceUpdatedPet={ id => this.replaceUpdatedPet(id) }/>
                 </div>
                 <div className="admin-list">
                     <div>USER LIST</div>                

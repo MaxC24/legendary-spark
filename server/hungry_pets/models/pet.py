@@ -5,7 +5,7 @@ class Pet(models.Model):
     age = models.PositiveIntegerField(null=True)
     breed = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
-    picture = models.ImageField(upload_to='images/')
+    picture = models.ImageField(upload_to='images/', null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     species = models.CharField(max_length=100)
     users = models.ManyToManyField(User, blank=True)

@@ -6,6 +6,7 @@ from hungry_pets.models.user import User
 from rest_framework.permissions import IsAdminUser
 from rest_framework.authentication import TokenAuthentication
 from .admin_serializers import AdminPetSerializer
+from rest_framework.response import Response
 
 class AdminPetViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
@@ -13,8 +14,10 @@ class AdminPetViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.all()
     serializer_class = AdminPetSerializer
 
+
 class AdminUserViewSet(viewsets.ReadOnlyModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminUser,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
+

@@ -1,7 +1,6 @@
 import React from 'react';
-import { adminCreatePet } from '../../utils/api';
 
-class PetCreator extends React.Component {
+class PetCreatorEditor extends React.Component {
 
     constructor(props){
         super(props);
@@ -9,58 +8,68 @@ class PetCreator extends React.Component {
     }
 
     get initialState(){
-        return {
-            name: '',
-            breed: '',
-            species: '',
-            price: '',
-            age: '',
-            picture: null,
-            adoption: false
-        }
+        return this.updatingPet ? 
+            {   
+                name: this.props.pet.name,
+                breed: this.props.pet.breed,
+                species: this.props.pet.species,
+                //.price is not required when creating a pet so if null we set it as an empty string
+                price: this.props.pet.price || '',
+                age: this.props.pet.age,
+                adoption: this.props.pet.adoption
+            } : {
+                name: '',
+                breed: '',
+                species: '',
+                price: '',
+                age: '',
+                adoption: false,
+            }
     } 
 
+    get updatingPet(){
+        return !!this.props.pet;
+    }
+
     onInputChange(prop, e) {
-        this.setState({
-            [prop] : e.target.value
-        })
+        this.setState({ [prop] : e.target.value });
+
     }
 
     onCheckboxChange(e) {
-        this.setState({
-            adoption: e.target.checked
-        })
+        this.setState({ adoption: e.target.checked })
     }
 
     onFileInputChange(e) {
-        this.setState({
-            picture: e.target.files[0]
-        })
+        this.setState({ picture: e.target.files[0] })
     }
 
-    resetFileInput(){
-        this.refs.fileInput.value = '';
+    changeFileInput(value){
+        this.refs.fileInput.value = value;
     }
 
-    async createPet(e) {
+    async createUpdatePet(e) {
         e.preventDefault();
-        let formData = new FormData();
+        let newPet, formData = new FormData();
 
         for(let key in this.state) {
             formData.append(key, this.state[key]);
         }
-
-        let newPet = await adminCreatePet(formData);
-        this.props.addPet(newPet);
-        this.resetFileInput();
-        this.setState(this.initialState);
+        if(this.updatingPet) {
+            newPet = await this.props.action(formData, this.props.pet.id);
+        } else {
+            newPet = await this.props.action(formData);
+            this.changeFileInput('');
+            this.setState(this.initialState);
+        }
+        this.props.afterAction(newPet);
     }
 
     render() {
         return (
-            <div className="pet-creator-form">
-                <div>CREATE A PET:</div>
-                <form  id="form" onSubmit={e => this.createPet(e)}>
+            <div className="pet-admin-form">
+                <div>{`${this.props.actionText.toUpperCase()}:`}</div>
+                <form  id="form" onSubmit={e => this.createUpdatePet(e)}>
                     <input type="text" 
                            placeholder="* Name"
                            onChange={e => this.onInputChange('name', e)}
@@ -95,9 +104,9 @@ class PetCreator extends React.Component {
                         </div>
                         <input ref="fileInput"
                             type="file"
-                            onChange={e => this.onFileInputChange(e)}  required
-                            files={this.state.picture}/>
-                        <a href="#form"><button type="submit">Create Pet</button></a>
+                            onChange={e => this.onFileInputChange(e)}  
+                            files={this.state.picture} />
+                        <a href="#form"><button type="submit">{this.props.actionText}</button></a>
                     </div>
                 </form>
             </div>
@@ -105,4 +114,4 @@ class PetCreator extends React.Component {
     }
 }
 
-export default PetCreator;
+export default PetCreatorEditor;

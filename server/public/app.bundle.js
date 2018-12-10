@@ -173,9 +173,9 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _PetCreator = __webpack_require__(/*! ./admin-components/PetCreator */ "./js/src/components/admin-components/PetCreator.js");
+var _PetCreatorEditor = __webpack_require__(/*! ./admin-components/PetCreatorEditor */ "./js/src/components/admin-components/PetCreatorEditor.js");
 
-var _PetCreator2 = _interopRequireDefault(_PetCreator);
+var _PetCreatorEditor2 = _interopRequireDefault(_PetCreatorEditor);
 
 var _PetList = __webpack_require__(/*! ./admin-components/PetList */ "./js/src/components/admin-components/PetList.js");
 
@@ -260,7 +260,14 @@ var Admin = function (_Component) {
             });
         }
     }, {
-        key: 'removePet',
+        key: 'replaceUpdatedPet',
+        value: function replaceUpdatedPet(updatedPet) {
+            this.setState({ pets: this.state.pets.map(function (pet) {
+                    return updatedPet.id === pet.id ? updatedPet : pet;
+                }) });
+        }
+    }, {
+        key: 'removeDeletedPet',
         value: function () {
             var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id) {
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -285,11 +292,11 @@ var Admin = function (_Component) {
                 }, _callee2, this);
             }));
 
-            function removePet(_x) {
+            function removeDeletedPet(_x) {
                 return _ref2.apply(this, arguments);
             }
 
-            return removePet;
+            return removeDeletedPet;
         }()
     }, {
         key: 'render',
@@ -308,9 +315,11 @@ var Admin = function (_Component) {
                         'Back'
                     )
                 ),
-                _react2.default.createElement(_PetCreator2.default, { addPet: function addPet(pet) {
+                _react2.default.createElement(_PetCreatorEditor2.default, { afterAction: function afterAction(pet) {
                         return _this2.addPet(pet);
-                    } }),
+                    },
+                    actionText: 'Create Pet',
+                    action: _api.adminCreatePet }),
                 _react2.default.createElement(
                     'div',
                     { className: 'admin-list' },
@@ -320,8 +329,11 @@ var Admin = function (_Component) {
                         'PET LIST'
                     ),
                     _react2.default.createElement(_PetList2.default, { pets: this.state.pets,
-                        removePet: function removePet(id) {
-                            return _this2.removePet(id);
+                        removeDeletedPet: function removeDeletedPet(id) {
+                            return _this2.removeDeletedPet(id);
+                        },
+                        replaceUpdatedPet: function replaceUpdatedPet(id) {
+                            return _this2.replaceUpdatedPet(id);
                         } })
                 ),
                 _react2.default.createElement(
@@ -754,10 +766,10 @@ exports.default = _userContext2.default.consumer((0, _reactRouterDom.withRouter)
 
 /***/ }),
 
-/***/ "./js/src/components/admin-components/PetCreator.js":
-/*!**********************************************************!*\
-  !*** ./js/src/components/admin-components/PetCreator.js ***!
-  \**********************************************************/
+/***/ "./js/src/components/admin-components/PetCreatorEditor.js":
+/*!****************************************************************!*\
+  !*** ./js/src/components/admin-components/PetCreatorEditor.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -774,8 +786,6 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _api = __webpack_require__(/*! ../../utils/api */ "./js/src/utils/api.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -788,19 +798,19 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PetCreator = function (_React$Component) {
-    _inherits(PetCreator, _React$Component);
+var PetCreatorEditor = function (_React$Component) {
+    _inherits(PetCreatorEditor, _React$Component);
 
-    function PetCreator(props) {
-        _classCallCheck(this, PetCreator);
+    function PetCreatorEditor(props) {
+        _classCallCheck(this, PetCreatorEditor);
 
-        var _this = _possibleConstructorReturn(this, (PetCreator.__proto__ || Object.getPrototypeOf(PetCreator)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (PetCreatorEditor.__proto__ || Object.getPrototypeOf(PetCreatorEditor)).call(this, props));
 
         _this.state = _this.initialState;
         return _this;
     }
 
-    _createClass(PetCreator, [{
+    _createClass(PetCreatorEditor, [{
         key: 'onInputChange',
         value: function onInputChange(prop, e) {
             this.setState(_defineProperty({}, prop, e.target.value));
@@ -808,50 +818,62 @@ var PetCreator = function (_React$Component) {
     }, {
         key: 'onCheckboxChange',
         value: function onCheckboxChange(e) {
-            this.setState({
-                adoption: e.target.checked
-            });
+            this.setState({ adoption: e.target.checked });
         }
     }, {
         key: 'onFileInputChange',
         value: function onFileInputChange(e) {
-            this.setState({
-                picture: e.target.files[0]
-            });
+            this.setState({ picture: e.target.files[0] });
         }
     }, {
-        key: 'resetFileInput',
-        value: function resetFileInput() {
-            this.refs.fileInput.value = '';
+        key: 'changeFileInput',
+        value: function changeFileInput(value) {
+            this.refs.fileInput.value = value;
         }
     }, {
-        key: 'createPet',
+        key: 'createUpdatePet',
         value: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-                var formData, key, newPet;
+                var newPet, formData, key;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 e.preventDefault();
-                                formData = new FormData();
+                                newPet = void 0, formData = new FormData();
 
 
                                 for (key in this.state) {
                                     formData.append(key, this.state[key]);
                                 }
 
-                                _context.next = 5;
-                                return (0, _api.adminCreatePet)(formData);
+                                if (!this.updatingPet) {
+                                    _context.next = 9;
+                                    break;
+                                }
 
-                            case 5:
+                                _context.next = 6;
+                                return this.props.action(formData, this.props.pet.id);
+
+                            case 6:
                                 newPet = _context.sent;
-
-                                this.props.addPet(newPet);
-                                this.resetFileInput();
-                                this.setState(this.initialState);
+                                _context.next = 14;
+                                break;
 
                             case 9:
+                                _context.next = 11;
+                                return this.props.action(formData);
+
+                            case 11:
+                                newPet = _context.sent;
+
+                                this.changeFileInput('');
+                                this.setState(this.initialState);
+
+                            case 14:
+                                this.props.afterAction(newPet);
+
+                            case 15:
                             case 'end':
                                 return _context.stop();
                         }
@@ -859,11 +881,11 @@ var PetCreator = function (_React$Component) {
                 }, _callee, this);
             }));
 
-            function createPet(_x) {
+            function createUpdatePet(_x) {
                 return _ref.apply(this, arguments);
             }
 
-            return createPet;
+            return createUpdatePet;
         }()
     }, {
         key: 'render',
@@ -872,16 +894,16 @@ var PetCreator = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'pet-creator-form' },
+                { className: 'pet-admin-form' },
                 _react2.default.createElement(
                     'div',
                     null,
-                    'CREATE A PET:'
+                    this.props.actionText.toUpperCase() + ':'
                 ),
                 _react2.default.createElement(
                     'form',
                     { id: 'form', onSubmit: function onSubmit(e) {
-                            return _this2.createPet(e);
+                            return _this2.createUpdatePet(e);
                         } },
                     _react2.default.createElement('input', { type: 'text',
                         placeholder: '* Name',
@@ -939,7 +961,7 @@ var PetCreator = function (_React$Component) {
                             type: 'file',
                             onChange: function onChange(e) {
                                 return _this2.onFileInputChange(e);
-                            }, required: true,
+                            },
                             files: this.state.picture }),
                         _react2.default.createElement(
                             'a',
@@ -947,7 +969,7 @@ var PetCreator = function (_React$Component) {
                             _react2.default.createElement(
                                 'button',
                                 { type: 'submit' },
-                                'Create Pet'
+                                this.props.actionText
                             )
                         )
                     )
@@ -957,22 +979,34 @@ var PetCreator = function (_React$Component) {
     }, {
         key: 'initialState',
         get: function get() {
-            return {
+            return this.updatingPet ? {
+                name: this.props.pet.name,
+                breed: this.props.pet.breed,
+                species: this.props.pet.species,
+                //.price is not required when creating a pet so if null we set it as an empty string
+                price: this.props.pet.price || '',
+                age: this.props.pet.age,
+                adoption: this.props.pet.adoption
+            } : {
                 name: '',
                 breed: '',
                 species: '',
                 price: '',
                 age: '',
-                picture: null,
                 adoption: false
             };
         }
+    }, {
+        key: 'updatingPet',
+        get: function get() {
+            return !!this.props.pet;
+        }
     }]);
 
-    return PetCreator;
+    return PetCreatorEditor;
 }(_react2.default.Component);
 
-exports.default = PetCreator;
+exports.default = PetCreatorEditor;
 
 /***/ }),
 
@@ -990,59 +1024,121 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _PetCreatorEditor = __webpack_require__(/*! ./PetCreatorEditor */ "./js/src/components/admin-components/PetCreatorEditor.js");
+
+var _PetCreatorEditor2 = _interopRequireDefault(_PetCreatorEditor);
+
+var _api = __webpack_require__(/*! ../../utils/api */ "./js/src/utils/api.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (_ref) {
-    var pets = _ref.pets,
-        removePet = _ref.removePet;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    return _react2.default.createElement(
-        "ul",
-        null,
-        pets.map(function (pet) {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PetList = function (_Component) {
+    _inherits(PetList, _Component);
+
+    function PetList(props) {
+        _classCallCheck(this, PetList);
+
+        var _this = _possibleConstructorReturn(this, (PetList.__proto__ || Object.getPrototypeOf(PetList)).call(this, props));
+
+        _this.state = {
+            petEditable: null
+        };
+        return _this;
+    }
+
+    _createClass(PetList, [{
+        key: 'setPetEditable',
+        value: function setPetEditable(id) {
+            var petEditable = this.state.petEditable === id ? null : id;
+            this.setState({
+                petEditable: petEditable
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props = this.props,
+                pets = _props.pets,
+                removeDeletedPet = _props.removeDeletedPet;
+
+            var isEditablePetList = !!removeDeletedPet;
             return _react2.default.createElement(
-                "li",
-                { className: "pet-row", key: pet.name },
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    pet.name
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    pet.breed
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    pet.species
-                ),
-                _react2.default.createElement("img", { src: pet.picture }),
-                pet.adoption ? _react2.default.createElement(
-                    "div",
-                    null,
-                    "Adopt ME! "
-                ) : _react2.default.createElement(
-                    "div",
-                    null,
-                    "$" + pet.price
-                ),
-                removePet ? _react2.default.createElement(
-                    "button",
-                    { onClick: function onClick() {
-                            return removePet(pet.id);
-                        } },
-                    "Delete"
-                ) : null
+                'ul',
+                null,
+                pets.map(function (pet) {
+                    return _react2.default.createElement(
+                        'li',
+                        { className: 'pet-row', key: pet.name },
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            pet.name
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            pet.breed
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            pet.species
+                        ),
+                        _react2.default.createElement('img', { src: pet.picture }),
+                        pet.adoption ? _react2.default.createElement(
+                            'div',
+                            null,
+                            'Adopt ME! '
+                        ) : _react2.default.createElement(
+                            'div',
+                            null,
+                            '$' + pet.price
+                        ),
+                        isEditablePetList ? _react2.default.createElement(
+                            'button',
+                            { onClick: function onClick() {
+                                    return removeDeletedPet(pet.id);
+                                } },
+                            'Delete'
+                        ) : null,
+                        isEditablePetList ? _react2.default.createElement(
+                            'button',
+                            { onClick: function onClick() {
+                                    return _this2.setPetEditable(pet.id);
+                                } },
+                            _this2.state.petEditable === pet.id ? 'Close' : 'Edit'
+                        ) : null,
+                        _this2.state.petEditable === pet.id ? _react2.default.createElement(_PetCreatorEditor2.default, { actionText: 'Edit Pet',
+                            pet: pet,
+                            afterAction: function afterAction(pet) {
+                                _this2.props.replaceUpdatedPet(pet);
+                                _this2.setPetEditable();
+                            },
+                            action: _api.adminUpdatePet }) : null
+                    );
+                })
             );
-        })
-    );
-};
+        }
+    }]);
+
+    return PetList;
+}(_react.Component);
+
+exports.default = PetList;
 
 /***/ }),
 
@@ -1817,7 +1913,7 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.updateProfile = exports.adminDeletePet = exports.adminGetUsers = exports.adminGetPets = exports.adminCreatePet = exports.getPreferences = exports.toggleLikePet = exports.getPets = exports.isAuthenticated = exports.signup = exports.login = undefined;
+exports.updateProfile = exports.adminUpdatePet = exports.adminDeletePet = exports.adminGetUsers = exports.adminGetPets = exports.adminCreatePet = exports.getPreferences = exports.toggleLikePet = exports.getPets = exports.isAuthenticated = exports.signup = exports.login = undefined;
 
 var login = exports.login = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
@@ -2156,21 +2252,20 @@ var adminDeletePet = exports.adminDeletePet = function () {
     };
 }();
 
-var updateProfile = exports.updateProfile = function () {
-    var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(data) {
+var adminUpdatePet = exports.adminUpdatePet = function () {
+    var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(data, id) {
         var response;
         return regeneratorRuntime.wrap(function _callee11$(_context11) {
             while (1) {
                 switch (_context11.prev = _context11.next) {
                     case 0:
                         _context11.next = 2;
-                        return (0, _fetch2.default)(_apiEndpoints2.default.profile, {
+                        return (0, _fetch2.default)('' + _apiEndpoints2.default.adminPet + id + '/', {
                             method: 'PUT',
                             headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
+                                'Accept': 'application/json'
                             },
-                            body: JSON.stringify(data)
+                            body: data
                         });
 
                     case 2:
@@ -2185,8 +2280,41 @@ var updateProfile = exports.updateProfile = function () {
         }, _callee11, this);
     }));
 
-    return function updateProfile(_x8) {
+    return function adminUpdatePet(_x8, _x9) {
         return _ref11.apply(this, arguments);
+    };
+}();
+
+var updateProfile = exports.updateProfile = function () {
+    var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(data) {
+        var response;
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+            while (1) {
+                switch (_context12.prev = _context12.next) {
+                    case 0:
+                        _context12.next = 2;
+                        return (0, _fetch2.default)(_apiEndpoints2.default.profile, {
+                            method: 'PUT',
+                            headers: {
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                    case 2:
+                        response = _context12.sent;
+                        return _context12.abrupt('return', response.json());
+
+                    case 4:
+                    case 'end':
+                        return _context12.stop();
+                }
+            }
+        }, _callee12, this);
+    }));
+
+    return function updateProfile(_x10) {
+        return _ref12.apply(this, arguments);
     };
 }();
 
@@ -12574,7 +12702,7 @@ exports = module.exports = __webpack_require__(/*! ../node_modules/css-loader/li
 
 
 // module
-exports.push([module.i, "* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n  margin-bottom: 100px;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 500px;\n  margin: auto;\n  margin-top: 50px;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 500px;\n  padding: 5px;\n  margin: auto;\n  margin-bottom: 5px;\n  border: 2px solid #ddd;\n}\n.pet-row div {\n  margin-right: 5px;\n  padding-top: 5px;\n  width: 100px;\n}\n.pet-row img {\n  height: 40px;\n}\n.pet-creator-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 30px;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.admin-user-list > li {\n  margin-bottom: 20px;\n}\n.list-user {\n  margin-bottom: 20px;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n.pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.heart-icon {\n  color: #f00;\n}\n.login-error {\n  position: absolute;\n  color: #f00;\n  top: 217px;\n}\n", ""]);
+exports.push([module.i, "* {\n  font-family: roboto;\n  box-sizing: border-box;\n}\nh1 {\n  text-align: center;\n}\n.container {\n  max-width: 1000px;\n  margin: auto;\n  margin-bottom: 100px;\n}\nbutton,\nselect,\ninput[type=text],\ninput[type=password] {\n  width: 100px;\n  height: 30px;\n  border-radius: 10px;\n}\nbutton:focus,\ninput[type=text]:focus,\ninput[type=password]:focus {\n  border: none;\n  outline: none;\n  background-color: #efefef;\n  border: solid 1px #aaa;\n}\nselect:focus {\n  outline-color: #aaa;\n  outline-width: 1px;\n}\ninput[type=text],\ninput[type=password] {\n  border-radius: 0px;\n  margin: 10px 5px;\n  padding-left: 5px;\n  width: 100%;\n}\nul {\n  list-style-type: none;\n  padding: 0;\n}\n.admin-page {\n  margin-top: 50px;\n}\n.admin-list {\n  width: 600px;\n  margin: auto;\n  margin-top: 50px;\n}\n.pet-row {\n  display: flex;\n  justify-content: space-between;\n  width: 600px;\n  padding: 5px;\n  margin: auto;\n  margin-bottom: 5px;\n  border: 2px solid #ddd;\n  flex-wrap: wrap;\n}\n.pet-row img {\n  height: 40px;\n}\n.pet-admin-form {\n  width: 500px;\n  margin: auto;\n  margin: 30px auto;\n}\n.pet-creator-last-row {\n  display: flex;\n  justify-content: space-between;\n}\n.admin-user-list > li {\n  margin-bottom: 20px;\n}\n.list-user {\n  margin-bottom: 20px;\n}\n.profile-page {\n  margin-top: 50px;\n}\n.profile-form {\n  width: 500px;\n  margin: auto;\n  margin-top: 100px;\n}\n.auth-forms {\n  display: flex;\n  justify-content: space-around;\n  padding: 30px;\n  margin-bottom: 20px;\n  background-color: #efefef;\n}\n.auth-form {\n  text-align: center;\n}\n.pet-cards {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 50px;\n}\n.selects-container {\n  display: flex;\n  justify-content: space-around;\n}\n.select {\n  display: flex;\n}\n.select label {\n  padding-top: 5px;\n  margin-right: 10px;\n}\n.pet-card {\n  width: 310px;\n  margin: 10px;\n  padding: 10px;\n  overflow: hidden;\n  box-shadow: 0px 0px 13px rgba(0,0,0,0.1);\n}\n.pet-card img {\n  height: 200px;\n}\n.pet-card > div {\n  margin-bottom: 5px;\n}\n.liked {\n  background-color: #f00;\n}\n.like-btn {\n  width: 20px;\n  height: 20px;\n  border: 1px solid #000;\n}\n.heart-icon {\n  color: #f00;\n}\n.login-error {\n  position: absolute;\n  color: #f00;\n  top: 217px;\n}\n", ""]);
 
 // exports
 

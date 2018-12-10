@@ -94,12 +94,22 @@ export async function adminDeletePet(id) {
     if(response.status !== 204) throw new Error("Could not delete the record.")
 }
 
+export async function adminUpdatePet(data, id) {
+    let response = await fetch(`${api.adminPet}${id}/`, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: data
+    });
+    return response.json();
+}
+
 export async function updateProfile(data) {
     let response = await fetch(api.profile, {
         method: 'PUT',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Accept': 'application/json'
         },
         body: JSON.stringify(data)
     });
