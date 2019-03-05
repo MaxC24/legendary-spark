@@ -48,7 +48,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            python ./server/manage.py test
+            python ./server/manage.py test hungry_pets
 
       - store_artifacts:
           path: test-reports
