@@ -54,14 +54,14 @@ jobs:
           path: test-reports
           destination: test-reports
 
-    deploy:
-      machine:
-        enabled: true
-      working_directory: ~/repo
-      steps:
-        - run:
-          name: Testind Deployment
-          command: echo deploying the app!
+  deploy:
+    machine:
+      enabled: true
+    working_directory: ~/repo
+    steps:
+      - run:
+        name: Testing Deployment
+        command: echo deploying the app!
 
 workflows:
   version: 2
