@@ -59,7 +59,7 @@ jobs:
         enabled: true
       working_directory: ~/repo
       steps:
-        -run:
+        - run:
           name: Testind Deployment
           command: echo deploying the app!
 
