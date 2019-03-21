@@ -9,5 +9,5 @@ class PetTests(TestCase):
         """
         True is True
         """
-        self.assertIs(True, True)
+        self.assertIs(True, False)
 
